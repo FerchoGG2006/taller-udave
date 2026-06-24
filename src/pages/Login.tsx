@@ -26,31 +26,35 @@ export default function Login() {
   }
 
   return (
-    <div className="flex h-screen items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md p-8 bg-white rounded-xl shadow-lg border border-gray-100">
-        <div className="flex flex-col items-center mb-8">
-          <div className="p-3 bg-blue-100 rounded-full mb-4">
-            <Wrench className="w-8 h-8 text-blue-600" />
+    <div className="flex h-screen items-center justify-center bg-gray-900 relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-blue-600/30 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-600/20 blur-[120px] pointer-events-none" />
+      
+      <div className="w-full max-w-md p-10 glass-dark rounded-3xl z-10 relative border border-gray-700/50">
+        <div className="flex flex-col items-center mb-10">
+          <div className="p-4 bg-gradient-to-br from-blue-500/20 to-indigo-500/20 rounded-2xl mb-5 shadow-inner border border-blue-500/30">
+            <Wrench className="w-10 h-10 text-blue-400 drop-shadow-md" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">Taller Udave</h1>
-          <p className="text-gray-500 mt-1">Ingresa al sistema de gestión</p>
+          <h1 className="text-3xl font-black text-white tracking-tight">Taller Udave</h1>
+          <p className="text-gray-400 mt-2 text-sm">Ingresa al sistema de gestión premium</p>
         </div>
 
-        <form onSubmit={handleLogin} className="space-y-4">
+        <form onSubmit={handleLogin} className="space-y-5">
           {error && (
-            <div className="p-3 bg-red-50 text-red-700 text-sm rounded-md">
+            <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-400 text-sm rounded-xl font-medium">
               {error}
             </div>
           )}
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-semibold text-gray-300 mb-2">
               Correo Electrónico
             </label>
             <input
               type="email"
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 outline-none"
+              className="w-full px-5 py-3 bg-black/40 border border-gray-700/50 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white placeholder-gray-600 transition-all shadow-inner"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="admin@tallerudave.com"
@@ -58,20 +62,20 @@ export default function Login() {
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-semibold text-gray-300 mb-2">
               Contraseña
             </label>
             <input
               type="password"
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 outline-none"
+              className="w-full px-5 py-3 bg-black/40 border border-gray-700/50 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white placeholder-gray-600 transition-all shadow-inner"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
             />
           </div>
 
-          <Button type="submit" className="w-full mt-2" disabled={loading}>
+          <Button type="submit" className="w-full mt-4 py-3.5 text-base rounded-xl shadow-lg shadow-blue-900/30 border border-white/10" disabled={loading}>
             {loading ? 'Ingresando...' : 'Iniciar Sesión'}
           </Button>
         </form>

@@ -50,6 +50,7 @@ CREATE TABLE ordenes (
   estado                    TEXT DEFAULT 'recibido', -- recibido | diagnostico | esperando_aprobacion | en_reparacion | listo | entregado
   observaciones             TEXT,
   diagnosis                 TEXT, -- diagnóstico técnico
+  mileage                   INT, -- kilometraje del vehículo al ingreso
   labor_cost                NUMERIC(12,2) DEFAULT 0.00, -- costo de mano de obra
   parts_cost                NUMERIC(12,2) DEFAULT 0.00, -- costo de repuestos
   aprobado_por_cliente      BOOLEAN DEFAULT false,
@@ -58,6 +59,7 @@ CREATE TABLE ordenes (
   internal_notes            TEXT, -- notas internas de uso del taller
   created_at                TIMESTAMPTZ DEFAULT now(),
   updated_at                TIMESTAMPTZ DEFAULT now()
+
 );
 
 -- 5. Ítems de cada orden (servicios individuales con precio)

@@ -60,73 +60,73 @@ export function OrdenCard({ orden }: { orden: Orden & { vehiculos?: Record<strin
   const totalEstimado = (orden.labor_cost || 0) + (orden.parts_cost || 0)
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5 flex flex-col h-full hover:shadow-md transition-shadow">
-      <div className="flex justify-between items-start mb-4">
+    <div className="glass rounded-2xl p-6 flex flex-col h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1 group">
+      <div className="flex justify-between items-start mb-5">
         <div>
-          <h3 className="text-xl font-extrabold text-gray-900 uppercase tracking-tight">{orden.vehiculos?.placa}</h3>
-          <p className="text-xs text-gray-500 font-medium">{orden.vehiculos?.marca} {orden.vehiculos?.modelo}</p>
+          <h3 className="text-2xl font-black text-gray-900 uppercase tracking-tight group-hover:text-blue-600 transition-colors">{orden.vehiculos?.placa}</h3>
+          <p className="text-sm text-gray-500 font-medium">{orden.vehiculos?.marca} {orden.vehiculos?.modelo}</p>
         </div>
         <EstadoBadge estado={orden.estado as EstadoOrden} />
       </div>
 
-      <div className="text-sm text-gray-600 mb-4 flex-1 space-y-2 border-t border-gray-50 pt-3">
-        <div className="flex items-center gap-2 text-xs">
-          <User className="w-4 h-4 text-gray-400" />
-          <span><strong>Cliente:</strong> {orden.vehiculos?.clientes?.nombre}</span>
+      <div className="text-sm text-gray-600 mb-5 flex-1 space-y-3 border-t border-gray-100/50 pt-4">
+        <div className="flex items-center gap-2.5 text-xs">
+          <div className="p-1.5 bg-gray-100 rounded-lg"><User className="w-4 h-4 text-gray-500" /></div>
+          <span className="text-gray-700"><strong>Cliente:</strong> {orden.vehiculos?.clientes?.nombre}</span>
         </div>
-        <div className="flex items-center gap-2 text-xs">
-          <Phone className="w-4 h-4 text-gray-400" />
-          <span><strong>Teléfono:</strong> {orden.vehiculos?.clientes?.telefono}</span>
+        <div className="flex items-center gap-2.5 text-xs">
+          <div className="p-1.5 bg-gray-100 rounded-lg"><Phone className="w-4 h-4 text-gray-500" /></div>
+          <span className="text-gray-700"><strong>Teléfono:</strong> {orden.vehiculos?.clientes?.telefono}</span>
         </div>
-        <div className="flex items-center gap-2 text-xs">
-          <Users className="w-4 h-4 text-gray-400" />
-          <span className="truncate"><strong>Mecánicos:</strong> <span className="text-gray-500">{nombresMecanicos}</span></span>
+        <div className="flex items-center gap-2.5 text-xs">
+          <div className="p-1.5 bg-gray-100 rounded-lg"><Users className="w-4 h-4 text-gray-500" /></div>
+          <span className="truncate text-gray-700"><strong>Mecánicos:</strong> <span className="text-gray-500">{nombresMecanicos}</span></span>
         </div>
 
         {totalEstimado > 0 && (
-          <div className="flex items-center gap-2 text-xs bg-gray-50 p-2 rounded-lg border border-gray-150">
-            <DollarSign className="w-4 h-4 text-green-600 font-black" />
-            <span>Presupuesto: <strong className="text-gray-900">${totalEstimado.toLocaleString('es-CO')}</strong></span>
+          <div className="flex items-center gap-2.5 text-xs bg-gradient-to-r from-emerald-50 to-green-50 p-2.5 rounded-xl border border-green-100/50 shadow-sm mt-4">
+            <div className="p-1 bg-white rounded-md shadow-sm"><DollarSign className="w-4 h-4 text-green-600" /></div>
+            <span className="font-medium text-green-800">Presupuesto: <strong className="text-green-900 text-sm">${totalEstimado.toLocaleString('es-CO')}</strong></span>
           </div>
         )}
 
         {orden.observaciones && (
-          <div className="mt-3 p-2.5 bg-gray-50/50 rounded-lg text-xs text-gray-500 italic border border-gray-100">
+          <div className="mt-4 p-3 bg-white/50 rounded-xl text-xs text-gray-600 italic border border-gray-100 shadow-sm">
             "{orden.observaciones}"
           </div>
         )}
       </div>
 
-      <div className="pt-4 border-t border-gray-100 mt-auto flex flex-wrap gap-2">
+      <div className="pt-5 border-t border-gray-100/50 mt-auto flex flex-wrap gap-2.5">
         <button
           onClick={() => setModalOpen(true)}
-          className="flex items-center gap-1 text-xs font-semibold text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100/70 px-3 py-2 rounded-lg transition-colors"
+          className="flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3.5 py-2.5 rounded-xl transition-all hover:shadow-sm"
         >
-          <Clipboard className="w-3.5 h-3.5" /> Ficha de Trabajo
+          <Clipboard className="w-4 h-4" /> Ficha de Trabajo
         </button>
 
         {orden.estado === 'recibido' && (
-          <Button size="sm" onClick={() => handleUpdateEstado('diagnostico')} disabled={loading}>
+          <Button size="sm" onClick={() => handleUpdateEstado('diagnostico')} disabled={loading} className="rounded-xl px-4 py-2">
             Iniciar Diagnóstico
           </Button>
         )}
         {orden.estado === 'diagnostico' && (
-          <Button size="sm" onClick={handleEnviarCliente} disabled={loading} className="bg-amber-600 hover:bg-amber-700 text-white flex items-center gap-1">
-            <MessageSquare className="w-3.5 h-3.5" /> Enviar a Cliente
+          <Button size="sm" onClick={handleEnviarCliente} disabled={loading} className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white flex items-center gap-1.5 shadow-md shadow-amber-500/20 rounded-xl px-4 py-2 border-0">
+            <MessageSquare className="w-4 h-4" /> Enviar a Cliente
           </Button>
         )}
         {orden.estado === 'esperando_aprobacion' && (
-          <Button size="sm" variant="secondary" onClick={() => handleUpdateEstado('en_reparacion')} disabled={loading}>
+          <Button size="sm" variant="secondary" onClick={() => handleUpdateEstado('en_reparacion')} disabled={loading} className="rounded-xl px-4 py-2">
             Aprobación Manual
           </Button>
         )}
         {orden.estado === 'en_reparacion' && (
-          <Button size="sm" onClick={() => handleUpdateEstado('listo')} disabled={loading} className="bg-green-600 hover:bg-green-700 text-white">
+          <Button size="sm" onClick={() => handleUpdateEstado('listo')} disabled={loading} className="bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white shadow-md shadow-green-500/20 rounded-xl px-4 py-2 border-0">
             Marcar como Listo
           </Button>
         )}
         {orden.estado === 'listo' && (
-          <Button size="sm" variant="secondary" onClick={() => handleUpdateEstado('entregado')} disabled={loading}>
+          <Button size="sm" variant="secondary" onClick={() => handleUpdateEstado('entregado')} disabled={loading} className="rounded-xl px-4 py-2">
             Entregar Vehículo
           </Button>
         )}
