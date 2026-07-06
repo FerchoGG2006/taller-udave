@@ -4,6 +4,7 @@ import { Button } from '../ui/Button'
 import { type EstadoOrden, type Orden } from '../../types'
 import { useCambiarEstadoOrden } from '../../hooks/useOrdenes'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function OrdenCard({ orden }: { orden: Orden & { vehiculos?: Record<string, any> } }) {
   const cambiarEstado = useCambiarEstadoOrden()
   const [loading, setLoading] = useState(false)
