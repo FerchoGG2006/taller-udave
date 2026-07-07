@@ -30,8 +30,10 @@ function App() {
     return <div className="flex h-screen items-center justify-center">Cargando...</div>
   }
 
-  // Si no hay sesión y no está en la página de login, redirigir a /login
-  if (!session && location.pathname !== '/login') {
+  const isPublicRoute = location.pathname.startsWith('/cliente/')
+
+  // Si no hay sesión, no está en login, y no es ruta pública, redirigir a /login
+  if (!session && location.pathname !== '/login' && !isPublicRoute) {
     return <Navigate to="/login" replace />
   }
 
@@ -42,7 +44,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {session ? (
+      {session && !isPublicRoute ? (
         <Layout />
       ) : (
         <Outlet />
