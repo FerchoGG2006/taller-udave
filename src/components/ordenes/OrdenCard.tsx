@@ -45,15 +45,16 @@ export function OrdenCard({ orden }: { orden: Orden & { vehiculos?: Record<strin
       // Abrir enlace de whatsapp
       const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(mensaje)}`
       window.open(whatsappUrl, '_blank')
-    } catch (err: any) {
-      alert("Error al procesar el envío: " + err.message)
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : String(err)
+      alert("Error al procesar el envío: " + errorMessage)
     }
     setLoading(false)
   }
 
   // Lista de mecánicos asignados
   const nombresMecanicos = orden.order_mechanics
-    ?.map((om: any) => om.profiles?.full_name)
+    ?.map((om: { profiles?: { full_name?: string } }) => om.profiles?.full_name)
     .filter(Boolean)
     .join(', ') || 'Sin asignar'
 
