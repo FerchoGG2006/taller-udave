@@ -62,24 +62,24 @@ export function NuevaOrdenForm({ vehiculoId }: NuevaOrdenFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium mb-2">Servicios Estimados</h3>
-        <div className="space-y-3">
+        <h3 className="text-sm font-black text-slate-600 dark:text-slate-400 uppercase tracking-widest border-b border-slate-200/40 dark:border-slate-800/40 pb-3 mb-4">Servicios Estimados</h3>
+        <div className="space-y-4">
           {items.map((item, index) => (
-            <div key={index} className="flex gap-2 items-center">
+            <div key={index} className="flex gap-3 items-center">
               <input
                 type="text"
                 placeholder="Descripción del servicio (Ej: Cambio de aceite)"
-                className="flex-1 rounded-md border-gray-300 shadow-sm border p-2 focus:border-blue-500 focus:ring-blue-500"
+                className="flex-1 rounded-xl neumorphic-inset text-slate-800 dark:text-slate-100 text-sm p-3 outline-none focus:ring-2 focus:ring-blue-500/20 border-none transition-all"
                 value={item.descripcion}
                 onChange={(e) => updateItem(index, 'descripcion', e.target.value)}
                 required={index === 0} // Al menos 1 requerido
               />
-              <div className="relative w-32">
-                <span className="absolute inset-y-0 left-0 flex items-center pl-2 text-gray-500">$</span>
+              <div className="relative w-36">
+                <span className="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-450 dark:text-slate-500 font-extrabold text-sm">$</span>
                 <input
                   type="number"
                   placeholder="0"
-                  className="w-full rounded-md border-gray-300 shadow-sm border p-2 pl-6 focus:border-blue-500 focus:ring-blue-500"
+                  className="w-full rounded-xl neumorphic-inset text-slate-800 dark:text-slate-100 text-sm p-3 pl-8 outline-none focus:ring-2 focus:ring-blue-500/20 border-none transition-all font-bold"
                   value={item.precio}
                   onChange={(e) => updateItem(index, 'precio', e.target.value)}
                 />
@@ -87,7 +87,7 @@ export function NuevaOrdenForm({ vehiculoId }: NuevaOrdenFormProps) {
               <button 
                 type="button" 
                 onClick={() => removeItem(index)}
-                className="p-2 text-red-500 hover:bg-red-50 rounded-md"
+                className="p-3 neumorphic-btn rounded-xl text-red-500 hover:text-red-600 disabled:opacity-30 disabled:pointer-events-none transition-all flex items-center justify-center border-none"
                 disabled={items.length === 1}
                 aria-label="Eliminar servicio"
                 title="Eliminar servicio"
@@ -99,29 +99,29 @@ export function NuevaOrdenForm({ vehiculoId }: NuevaOrdenFormProps) {
         </div>
         <Button 
           type="button" 
-          variant="secondary" 
+          variant="neumorphic" 
           onClick={addItem}
-          className="mt-3 text-sm"
+          className="mt-4 text-xs px-4 py-2.5 rounded-xl"
         >
           <PlusCircle className="w-4 h-4 mr-2" /> Añadir otro servicio
         </Button>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
           Observaciones al ingreso (Rayones, golpes, pertenencias)
         </label>
         <textarea
           rows={3}
-          className="w-full rounded-md border-gray-300 shadow-sm border p-2 focus:border-blue-500 focus:ring-blue-500"
+          className="w-full rounded-xl neumorphic-inset text-slate-800 dark:text-slate-100 text-sm p-3 outline-none focus:ring-2 focus:ring-blue-500/20 border-none transition-all"
           value={observaciones}
           onChange={(e) => setObservaciones(e.target.value)}
           placeholder="El vehículo ingresa con golpe en puerta derecha..."
         />
       </div>
 
-      <div className="pt-4 border-t border-gray-200">
-        <Button type="submit" disabled={crearOrden.isPending} className="w-full sm:w-auto">
+      <div className="pt-4 border-t border-slate-200/40 dark:border-slate-800/40">
+        <Button type="submit" variant="neumorphic" disabled={crearOrden.isPending} className="w-full sm:w-auto px-6 py-3 rounded-xl">
           {crearOrden.isPending ? 'Creando Orden...' : 'Crear Orden e Ingresar Vehículo'}
         </Button>
       </div>

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useProfiles, useCrearPerfil, useActualizarPerfil, useActiveProfile } from '../hooks/useProfiles'
 import { Navigate } from 'react-router-dom'
+import { Button } from '../components/ui/Button'
 import { PlusCircle, Edit2, CheckCircle2, XCircle, Shield, Phone, Percent, Loader2 } from 'lucide-react'
 
 export default function Personal() {
@@ -96,70 +97,73 @@ export default function Personal() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto pb-12">
-      <div className="flex justify-between items-center mb-6">
+    <div className="max-w-6xl mx-auto pb-12 px-4 md:px-0">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Personal del Taller</h1>
-          <p className="text-sm text-gray-500 mt-1">Gestiona los accesos de recepcionistas y mecánicos del taller</p>
+          <h1 className="text-3xl font-black text-slate-800 dark:text-white mb-1 tracking-tight">Personal del Taller</h1>
+          <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Gestiona los accesos de recepcionistas y mecánicos del taller</p>
         </div>
-        <button
+        <Button
           onClick={abrirCrear}
-          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2.5 rounded-lg shadow-sm transition-colors text-sm"
+          variant="neumorphic"
+          className="flex items-center gap-2 px-5 py-3 rounded-2xl"
         >
-          <PlusCircle className="w-5 h-5" /> Registrar Empleado
-        </button>
+          <PlusCircle className="w-5 h-5 text-indigo-500" /> Registrar Empleado
+        </Button>
       </div>
 
       {isLoadingProfiles ? (
-        <div className="flex justify-center p-12"><Loader2 className="w-8 h-8 animate-spin text-blue-500" /></div>
+        <div className="flex justify-center p-12"><Loader2 className="w-8 h-8 animate-spin text-indigo-500" /></div>
       ) : isError ? (
         <div className="p-4 bg-red-50 text-red-700 rounded-lg">Error: {(error as Error).message}</div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {profiles?.map((perfil) => (
-            <div key={perfil.id} className={`bg-white rounded-xl shadow-sm border p-5 flex flex-col justify-between ${!perfil.is_active ? 'border-gray-200 opacity-60' : 'border-gray-200'}`}>
+            <div key={perfil.id} className={`neumorphic-outset p-6 rounded-[2rem] border-none flex flex-col justify-between transition-all duration-300 hover:scale-[1.015] ${!perfil.is_active ? 'opacity-60' : ''}`}>
               <div>
-                <div className="flex justify-between items-start mb-3">
+                <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h3 className="text-lg font-bold text-gray-900 leading-tight">{perfil.full_name}</h3>
-                    <div className="flex items-center gap-1.5 mt-1.5">
-                      <Shield className="w-3.5 h-3.5 text-gray-400" />
-                      <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    <h3 className="text-lg font-black text-slate-800 dark:text-white leading-tight">{perfil.full_name}</h3>
+                    <div className="flex items-center gap-1.5 mt-2">
+                      <Shield className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
+                      <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                         {perfil.role === 'owner' ? 'Dueño / Administrador' : perfil.role === 'receptionist' ? 'Recepcionista' : 'Mecánico'}
                       </span>
                     </div>
                   </div>
                   
-                  <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium border ${perfil.is_active ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
+                  <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${perfil.is_active ? 'bg-emerald-500/10 text-emerald-650 border-emerald-500/20' : 'bg-red-500/10 text-red-600 border-red-500/20'}`}>
                     {perfil.is_active ? <CheckCircle2 className="w-3 h-3" /> : <XCircle className="w-3 h-3" />}
                     {perfil.is_active ? 'Activo' : 'Inactivo'}
                   </span>
                 </div>
 
-                <div className="space-y-2 mt-4 text-sm text-gray-600 border-t border-gray-50 pt-3">
+                <div className="space-y-2 mt-4 text-xs font-semibold text-slate-650 dark:text-slate-400 border-t border-slate-200/40 dark:border-slate-800/40 pt-4">
                   {perfil.phone && (
                     <div className="flex items-center gap-2">
-                      <Phone className="w-4 h-4 text-gray-400" />
+                      <Phone className="w-4 h-4 text-slate-400 dark:text-slate-500" />
                       <span>{perfil.phone}</span>
                     </div>
                   )}
                   {perfil.role === 'mechanic' && (
                     <div className="flex items-center gap-2">
-                      <Percent className="w-4 h-4 text-gray-400" />
-                      <span>Comisión: <strong>{perfil.commission_percentage}%</strong></span>
+                      <Percent className="w-4 h-4 text-slate-400 dark:text-slate-500" />
+                      <span>Comisión: <strong className="text-slate-800 dark:text-white">{perfil.commission_percentage}%</strong></span>
                     </div>
                   )}
                 </div>
               </div>
 
-              <div className="mt-6 pt-3 border-t border-gray-100 flex justify-end">
-                <button
+              <div className="mt-6 pt-4 border-t border-slate-200/40 dark:border-slate-800/40 flex justify-end">
+                <Button
                   onClick={() => abrirEditar(perfil)}
                   disabled={perfil.role === 'owner'}
-                  className="flex items-center gap-1.5 text-xs text-blue-600 hover:text-blue-700 font-semibold px-2 py-1 rounded hover:bg-blue-50 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
+                  variant="neumorphic"
+                  size="sm"
+                  className="rounded-xl text-xs py-1.5 px-4"
                 >
-                  <Edit2 className="w-3.5 h-3.5" /> Editar Datos
-                </button>
+                  <Edit2 className="w-3.5 h-3.5 mr-1 text-slate-400 dark:text-slate-500" /> Editar Datos
+                </Button>
               </div>
             </div>
           ))}
@@ -168,25 +172,25 @@ export default function Personal() {
 
       {/* Modal de Formulario */}
       {modalAbierto && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 animate-fade-in">
-          <div className="bg-white w-full max-w-md rounded-xl shadow-xl border border-gray-100 p-6 overflow-y-auto max-h-[90vh]">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">
-              {editando ? 'Editar Empleado' : 'Registrar Nuevo Empleado'}
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50 animate-fade-in">
+          <div className="bg-slate-100 dark:bg-slate-900 w-full max-w-md rounded-[2rem] border-none p-7 shadow-2xl overflow-y-auto max-h-[90vh] neumorphic-outset">
+            <h2 className="text-lg font-black text-slate-850 dark:text-white mb-6 uppercase tracking-widest border-b border-slate-200/40 dark:border-slate-800/40 pb-3">
+              {editando ? 'Editar Empleado' : 'Registrar Empleado'}
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-5">
               {formError && (
-                <div className="p-3 bg-red-50 text-red-700 text-sm rounded-md border border-red-100">
+                <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-xs rounded-2xl font-bold uppercase tracking-wider">
                   {formError}
                 </div>
               )}
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Nombre Completo</label>
+                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Nombre Completo</label>
                 <input
                   type="text"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
+                  className="mt-2 block w-full rounded-xl neumorphic-inset text-slate-800 dark:text-slate-100 text-sm p-3 outline-none focus:ring-2 focus:ring-blue-500/20 border-none transition-all"
                   value={nombre}
                   onChange={(e) => setNombre(e.target.value)}
                   placeholder="Ej: Pedro Navaja"
@@ -194,10 +198,10 @@ export default function Personal() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Teléfono móvil</label>
+                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Teléfono móvil</label>
                 <input
                   type="text"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
+                  className="mt-2 block w-full rounded-xl neumorphic-inset text-slate-800 dark:text-slate-100 text-sm p-3 outline-none focus:ring-2 focus:ring-blue-500/20 border-none transition-all"
                   value={telefono}
                   onChange={(e) => setTelefono(e.target.value)}
                   placeholder="Ej: 573001234567"
@@ -207,11 +211,11 @@ export default function Personal() {
               {!editando && (
                 <>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico (Login)</label>
+                    <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Correo Electrónico (Login)</label>
                     <input
                       type="email"
                       required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
+                      className="mt-2 block w-full rounded-xl neumorphic-inset text-slate-800 dark:text-slate-100 text-sm p-3 outline-none focus:ring-2 focus:ring-blue-500/20 border-none transition-all"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="mecanico@tallerudave.com"
@@ -219,11 +223,11 @@ export default function Personal() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Contraseña de acceso</label>
+                    <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Contraseña de acceso</label>
                     <input
                       type="password"
                       required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
+                      className="mt-2 block w-full rounded-xl neumorphic-inset text-slate-800 dark:text-slate-100 text-sm p-3 outline-none focus:ring-2 focus:ring-blue-500/20 border-none transition-all"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="Mínimo 6 caracteres"
@@ -233,25 +237,25 @@ export default function Personal() {
               )}
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Rol de Trabajo</label>
+                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Rol de Trabajo</label>
                 <select
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 outline-none text-sm bg-white"
+                  className="mt-2 block w-full rounded-xl neumorphic-inset text-slate-800 dark:text-slate-100 text-sm p-3 outline-none focus:ring-2 focus:ring-blue-500/20 border-none transition-all bg-transparent cursor-pointer appearance-none font-medium"
                   value={rol}
                   onChange={(e) => setRol(e.target.value as any)}
                 >
-                  <option value="mechanic">Mecánico</option>
-                  <option value="receptionist">Recepcionista / Asesor</option>
+                  <option value="mechanic" className="dark:bg-slate-900">Mecánico</option>
+                  <option value="receptionist" className="dark:bg-slate-900">Recepcionista / Asesor</option>
                 </select>
               </div>
 
               {rol === 'mechanic' && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Porcentaje de Comisión (%)</label>
+                  <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Porcentaje de Comisión (%)</label>
                   <input
                     type="number"
                     min="0"
                     max="100"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
+                    className="mt-2 block w-full rounded-xl neumorphic-inset text-slate-800 dark:text-slate-100 text-sm p-3 outline-none focus:ring-2 focus:ring-blue-500/20 border-none transition-all font-bold"
                     value={comision}
                     onChange={(e) => setComision(e.target.value)}
                   />
@@ -259,39 +263,41 @@ export default function Personal() {
               )}
 
               {editando && (
-                <div className="flex items-center gap-2 py-1">
+                <div className="flex items-center gap-3 py-1">
                   <input
                     type="checkbox"
                     id="activo"
-                    className="rounded text-blue-600 focus:ring-blue-500"
+                    className="rounded text-blue-600 focus:ring-blue-500 w-4 h-4"
                     checked={activo}
                     onChange={(e) => setActivo(e.target.checked)}
                   />
-                  <label htmlFor="activo" className="text-sm font-medium text-gray-700 cursor-pointer">
+                  <label htmlFor="activo" className="text-xs font-bold text-slate-650 dark:text-slate-450 uppercase tracking-wider cursor-pointer">
                     Cuenta activa (Permite el ingreso)
                   </label>
                 </div>
               )}
 
-              <div className="flex gap-3 pt-4 border-t border-gray-100">
-                <button
+              <div className="flex gap-4 pt-4 border-t border-slate-200/40 dark:border-slate-800/40">
+                <Button
                   type="button"
+                  variant="neumorphic"
                   onClick={() => setModalAbierto(false)}
-                  className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 rounded-lg text-sm transition-colors"
+                  className="flex-1 rounded-xl text-xs py-2.5"
                 >
                   Cancelar
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
+                  variant="neumorphic"
                   disabled={crearPerfil.isPending || actualizarPerfil.isPending}
-                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg text-sm transition-colors flex items-center justify-center"
+                  className="flex-1 rounded-xl text-xs py-2.5 text-blue-600 dark:text-blue-400"
                 >
                   {(crearPerfil.isPending || actualizarPerfil.isPending) ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
                   ) : (
                     'Guardar'
                   )}
-                </button>
+                </Button>
               </div>
             </form>
           </div>

@@ -322,10 +322,10 @@ export default function AprobacionCliente() {
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 pb-16 font-sans">
       {/* Cabecera / Banner */}
-      <header className="bg-slate-950/80 border-b border-slate-800/80 sticky top-0 backdrop-blur-md z-40 px-4 py-4">
+      <header className="bg-slate-900/90 border-b border-slate-800/40 sticky top-0 backdrop-blur-md z-40 px-4 py-4 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
         <div className="max-w-2xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-2.5">
-            <div className="w-2.5 h-2.5 bg-indigo-500 rounded-full animate-pulse"></div>
+            <div className="w-2.5 h-2.5 bg-indigo-500 rounded-full animate-pulse shadow-[0_0_10px_#6366f1]"></div>
             <div>
               <span className="text-[10px] text-indigo-400 font-bold uppercase tracking-wider">
                 Portal de Seguimiento
@@ -340,34 +340,34 @@ export default function AprobacionCliente() {
         </div>
       </header>
 
-      <main className="max-w-2xl mx-auto px-4 mt-6 space-y-6">
+      <main className="max-w-2xl mx-auto px-4 mt-8 space-y-8">
         {/* Ficha del Vehículo */}
-        <section className="bg-slate-950/40 rounded-3xl border border-slate-800/80 p-5 backdrop-blur-sm relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-8 opacity-5">
-            <Car className="w-32 h-32" />
+        <section className="bg-slate-900 p-6 rounded-[2rem] shadow-[8px_8px_16px_rgba(0,0,0,0.5),-8px_-8px_16px_rgba(255,255,255,0.02)] border-none relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-8 opacity-[0.02]">
+            <Car className="w-40 h-40" />
           </div>
-          <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+          <h2 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-5 flex items-center gap-2">
             <Car className="w-4 h-4 text-indigo-400" /> Ficha Técnica del Vehículo
           </h2>
           <div className="grid grid-cols-2 gap-4 text-sm relative z-10">
-            <div className="bg-slate-900/60 p-3 rounded-2xl border border-slate-800/50">
-              <p className="text-[10px] text-slate-400 uppercase font-semibold">Marca / Modelo</p>
-              <p className="font-bold text-white mt-1">{orden.vehiculos?.marca} {orden.vehiculos?.modelo}</p>
+            <div className="p-4 rounded-2xl bg-slate-950/40 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.5),inset_-3px_-3px_6px_rgba(255,255,255,0.01)] border-none">
+              <p className="text-[9px] text-slate-500 uppercase font-bold tracking-wider">Marca / Modelo</p>
+              <p className="font-extrabold text-white mt-1">{orden.vehiculos?.marca} {orden.vehiculos?.modelo}</p>
             </div>
-            <div className="bg-slate-900/60 p-3 rounded-2xl border border-slate-800/50">
-              <p className="text-[10px] text-slate-400 uppercase font-semibold">Placa</p>
-              <p className="font-extrabold text-indigo-400 text-base mt-0.5 uppercase tracking-wide">{orden.vehiculos?.placa}</p>
+            <div className="p-4 rounded-2xl bg-slate-950/40 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.5),inset_-3px_-3px_6px_rgba(255,255,255,0.01)] border-none">
+              <p className="text-[9px] text-slate-500 uppercase font-bold tracking-wider">Placa</p>
+              <p className="font-black text-indigo-400 text-base mt-0.5 uppercase tracking-widest">{orden.vehiculos?.placa}</p>
             </div>
             {orden.vehiculos?.anio && (
-              <div className="bg-slate-900/60 p-3 rounded-2xl border border-slate-800/50">
-                <p className="text-[10px] text-slate-400 uppercase font-semibold">Año modelo</p>
-                <p className="font-semibold text-white mt-1">{orden.vehiculos?.anio}</p>
+              <div className="p-4 rounded-2xl bg-slate-950/40 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.5),inset_-3px_-3px_6px_rgba(255,255,255,0.01)] border-none">
+                <p className="text-[9px] text-slate-500 uppercase font-bold tracking-wider">Año modelo</p>
+                <p className="font-bold text-white mt-1">{orden.vehiculos?.anio}</p>
               </div>
             )}
             {orden.vehiculos?.color && (
-              <div className="bg-slate-900/60 p-3 rounded-2xl border border-slate-800/50">
-                <p className="text-[10px] text-slate-400 uppercase font-semibold">Color</p>
-                <p className="font-semibold text-white mt-1 capitalize">{orden.vehiculos?.color}</p>
+              <div className="p-4 rounded-2xl bg-slate-950/40 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.5),inset_-3px_-3px_6px_rgba(255,255,255,0.01)] border-none">
+                <p className="text-[9px] text-slate-500 uppercase font-bold tracking-wider">Color</p>
+                <p className="font-bold text-white mt-1 capitalize">{orden.vehiculos?.color}</p>
               </div>
             )}
           </div>
@@ -375,21 +375,21 @@ export default function AprobacionCliente() {
 
         {/* Diagnóstico técnico */}
         {(orden.diagnosis || orden.observaciones) && (
-          <section className="bg-slate-950/40 rounded-3xl border border-slate-800/80 p-5 backdrop-blur-sm">
-            <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+          <section className="bg-slate-900 p-6 rounded-[2rem] shadow-[8px_8px_16px_rgba(0,0,0,0.5),-8px_-8px_16px_rgba(255,255,255,0.02)] border-none">
+            <h2 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-5 flex items-center gap-2">
               <Calendar className="w-4 h-4 text-indigo-400" /> Diagnóstico & Observaciones
             </h2>
             <div className="space-y-4 text-sm">
               {orden.observaciones && (
-                <div className="bg-slate-900/40 p-3 rounded-2xl border border-slate-800/50">
-                  <p className="text-[10px] text-slate-400 font-bold uppercase">Reportado por el Cliente</p>
-                  <p className="text-slate-300 mt-1 italic leading-relaxed">"{orden.observaciones}"</p>
+                <div className="p-4 rounded-2xl bg-slate-950/40 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.5),inset_-3px_-3px_6px_rgba(255,255,255,0.01)] border-none">
+                  <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Reportado por el Cliente</p>
+                  <p className="text-slate-300 mt-2.5 italic leading-relaxed">"{orden.observaciones}"</p>
                 </div>
               )}
               {orden.diagnosis && (
-                <div className="bg-indigo-950/20 p-4 rounded-2xl border border-indigo-500/10">
-                  <p className="text-[10px] text-indigo-400 font-bold uppercase tracking-wider">Diagnóstico Técnico Autorizado</p>
-                  <p className="text-slate-200 mt-2 font-medium leading-relaxed">
+                <div className="p-4 rounded-2xl bg-indigo-500/5 border border-indigo-500/10 shadow-sm">
+                  <p className="text-[9px] text-indigo-455 font-bold uppercase tracking-wider">Diagnóstico Técnico Autorizado</p>
+                  <p className="text-slate-200 mt-2.5 font-medium leading-relaxed">
                     {orden.diagnosis}
                   </p>
                 </div>
@@ -400,12 +400,12 @@ export default function AprobacionCliente() {
 
         {/* Galería de Fotos del diagnóstico (Carrusel Interactivo Premium) */}
         {fotos && fotos.length > 0 && (
-          <section className="bg-slate-950/40 rounded-3xl border border-slate-800/80 p-5 backdrop-blur-sm">
-            <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+          <section className="bg-slate-900 p-6 rounded-[2rem] shadow-[8px_8px_16px_rgba(0,0,0,0.5),-8px_-8px_16px_rgba(255,255,255,0.02)] border-none">
+            <h2 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-5 flex items-center gap-2">
               <ImageIcon className="w-4 h-4 text-indigo-400" /> Galería de Inspección ({fotos.length})
             </h2>
             
-            <div className="relative rounded-2xl overflow-hidden border border-slate-700 bg-slate-950 aspect-video group shadow-xl">
+            <div className="relative rounded-2xl overflow-hidden bg-slate-950 aspect-video group shadow-2xl">
               <img 
                 src={fotos[activePhotoIndex].url} 
                 alt={`Inspección ${fotos[activePhotoIndex].tipo}`} 
@@ -416,7 +416,7 @@ export default function AprobacionCliente() {
               <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/80 to-transparent pointer-events-none"></div>
               
               {/* Tag del tipo */}
-              <span className="absolute top-3 left-3 text-[10px] bg-slate-950/90 border border-slate-700 text-indigo-400 px-3 py-1 rounded-full capitalize font-bold tracking-wider">
+              <span className="absolute top-3 left-3 text-[9px] bg-slate-900/90 border border-slate-700/30 text-indigo-405 px-3 py-1 rounded-full capitalize font-bold tracking-wider">
                 Etapa: {fotos[activePhotoIndex].tipo}
               </span>
 
@@ -445,7 +445,7 @@ export default function AprobacionCliente() {
 
             {/* Indicadores de Posición y thumbnails */}
             {fotos.length > 1 && (
-              <div className="flex justify-center gap-1.5 mt-3">
+              <div className="flex justify-center gap-1.5 mt-4">
                 {fotos.map((_, idx) => (
                   <button
                     key={idx}
@@ -460,8 +460,8 @@ export default function AprobacionCliente() {
         )}
 
         {/* Presupuesto interactivo */}
-        <section className="bg-slate-950/40 rounded-3xl border border-slate-800/80 p-5 backdrop-blur-sm">
-          <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+        <section className="bg-slate-900 p-6 rounded-[2rem] shadow-[8px_8px_16px_rgba(0,0,0,0.5),-8px_-8px_16px_rgba(255,255,255,0.02)] border-none">
+          <h2 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
             <DollarSign className="w-4 h-4 text-indigo-400" /> Presupuesto Detallado
           </h2>
 
@@ -470,21 +470,21 @@ export default function AprobacionCliente() {
           </p>
 
           {!items?.length ? (
-            <div className="p-6 text-center text-slate-400 text-sm bg-slate-900/60 border border-slate-800 rounded-2xl">
+            <div className="p-6 text-center text-slate-400 text-sm bg-slate-950/40 rounded-2xl shadow-[inset_3px_3px_6px_rgba(0,0,0,0.5)]">
               No hay ítems detallados para esta orden de servicio.
             </div>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-4">
               {items.map((item) => {
                 const aprobado = !!itemsAprobados[item.id]
                 return (
                   <div 
                     key={item.id} 
                     onClick={() => toggleItem(item.id)}
-                    className={`flex justify-between items-center p-4 border rounded-2xl cursor-pointer transition-all duration-200 select-none ${aprobado ? 'bg-indigo-500/10 border-indigo-500/80 shadow-md shadow-indigo-500/5' : 'bg-slate-900/40 border-slate-800 hover:border-slate-700'}`}
+                    className={`flex justify-between items-center p-4 border-none rounded-2xl cursor-pointer transition-all duration-300 select-none ${aprobado ? 'bg-indigo-500/10 shadow-[4px_4px_10px_rgba(99,102,241,0.15)] ring-1 ring-indigo-500/30' : 'bg-slate-900 shadow-[4px_4px_10px_rgba(0,0,0,0.3),-4px_-4px_10px_rgba(255,255,255,0.01)] hover:bg-slate-850'}`}
                   >
-                    <div className="flex items-center gap-3">
-                      <div className={`w-5.5 h-5.5 rounded-lg flex items-center justify-center border transition-all ${aprobado ? 'bg-indigo-500 border-indigo-500 text-white' : 'border-slate-600 bg-slate-950'}`}>
+                    <div className="flex items-center gap-3.5">
+                      <div className={`w-5 h-5 rounded-lg flex items-center justify-center border-none transition-all ${aprobado ? 'bg-indigo-500 text-white shadow-[0_0_10px_rgba(99,102,241,0.5)]' : 'bg-slate-950 shadow-[inset_2px_2px_4px_rgba(0,0,0,0.5)]'}`}>
                         {aprobado && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                       </div>
                       <div>
@@ -492,7 +492,7 @@ export default function AprobacionCliente() {
                       </div>
                     </div>
                     <div className="text-right pl-3">
-                      <p className={`text-sm font-extrabold transition-colors ${aprobado ? 'text-indigo-400' : 'text-slate-300'}`}>
+                      <p className={`text-sm font-black transition-colors ${aprobado ? 'text-indigo-400' : 'text-slate-450'}`}>
                         ${parseFloat(item.precio).toLocaleString('es-CO', { minimumFractionDigits: 0 })}
                       </p>
                     </div>
@@ -504,14 +504,14 @@ export default function AprobacionCliente() {
 
           {/* Suma Financiera */}
           {items && items.length > 0 && (
-            <div className="mt-6 border-t border-slate-800 pt-5 space-y-3">
-              <div className="flex justify-between text-xs text-slate-400 font-semibold px-1">
+            <div className="mt-6 border-t border-slate-850 pt-5 space-y-3">
+              <div className="flex justify-between text-xs text-slate-500 font-semibold px-1">
                 <span>Total Presupuesto Completo:</span>
-                <span className="text-slate-300">${totalOriginal.toLocaleString('es-CO')}</span>
+                <span className="text-slate-400">${totalOriginal.toLocaleString('es-CO')}</span>
               </div>
               <div className="flex justify-between items-center text-sm bg-indigo-500/5 p-4 rounded-2xl border border-indigo-500/10">
-                <span className="font-bold text-slate-300">Monto Aprobado:</span>
-                <span className="text-lg font-black text-emerald-400">${totalAprobado.toLocaleString('es-CO')}</span>
+                <span className="font-bold text-slate-350">Monto Aprobado:</span>
+                <span className="text-lg font-black text-emerald-450">${totalAprobado.toLocaleString('es-CO')}</span>
               </div>
             </div>
           )}
@@ -519,21 +519,21 @@ export default function AprobacionCliente() {
 
         {/* Firma Digital del Cliente */}
         {items && items.length > 0 && totalAprobado > 0 && (
-          <section className="bg-slate-950/40 rounded-3xl border border-slate-800/80 p-5 backdrop-blur-sm space-y-4">
-            <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+          <section className="bg-slate-900 p-6 rounded-[2rem] shadow-[8px_8px_16px_rgba(0,0,0,0.5),-8px_-8px_16px_rgba(255,255,255,0.02)] border-none space-y-4">
+            <h2 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
               <User className="w-4 h-4 text-indigo-400" /> Firma de Autorización
             </h2>
             <p className="text-xs text-slate-400 leading-relaxed">
               Dibuja tu firma en el recuadro a continuación para autorizar la reparación de los servicios aprobados:
             </p>
 
-            <div className="border border-slate-700/85 rounded-2xl overflow-hidden bg-slate-950 relative">
-              <div className="flex justify-between items-center px-4 py-2.5 border-b border-slate-800 bg-slate-900/50">
-                <span className="text-xs font-semibold text-slate-400">Firma del Propietario</span>
+            <div className="border-none rounded-2xl overflow-hidden bg-slate-950 shadow-[inset_4px_4px_8px_rgba(0,0,0,0.5)]">
+              <div className="flex justify-between items-center px-4 py-2.5 border-b border-slate-900/60 bg-slate-900/40">
+                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Firma del Propietario</span>
                 <button 
                   type="button" 
                   onClick={clearCanvas} 
-                  className="text-xs font-bold text-indigo-400 hover:text-indigo-350 transition-colors"
+                  className="text-xs font-bold text-indigo-455 hover:text-indigo-400 transition-colors"
                 >
                   Limpiar Firma
                 </button>
@@ -566,7 +566,7 @@ export default function AprobacionCliente() {
         <button
           onClick={handleAprobarPresupuesto}
           disabled={guardando || !items?.length || totalAprobado === 0 || isCanvasEmpty}
-          className="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white font-extrabold py-4 rounded-2xl text-sm transition-all duration-300 shadow-lg shadow-indigo-600/10 hover:shadow-indigo-600/20 disabled:opacity-40 disabled:pointer-events-none flex items-center justify-center gap-2"
+          className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold py-4 rounded-2xl text-sm transition-all duration-300 shadow-[0_6px_20px_rgba(99,102,241,0.25)] hover:scale-[1.01] disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center gap-2"
         >
           {guardando ? (
             <Loader2 className="w-5 h-5 animate-spin" />
@@ -576,7 +576,7 @@ export default function AprobacionCliente() {
         </button>
       </main>
 
-      <footer className="text-center text-xs text-slate-500 mt-12 px-4 space-y-1.5">
+      <footer className="text-center text-xs text-slate-550 mt-12 px-4 space-y-1.5">
         <p>© 2026 Taller Udave. Todos los derechos reservados.</p>
         <p>Valledupar, Colombia • Si tienes dudas, contáctanos por WhatsApp al número del taller.</p>
       </footer>

@@ -26,35 +26,35 @@ export default function Login() {
   }
 
   return (
-    <div className="flex h-screen items-center justify-center bg-gray-900 relative overflow-hidden">
+    <div className="flex h-screen items-center justify-center bg-slate-900 relative overflow-hidden">
       {/* Background decoration */}
-      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-blue-600/30 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-600/20 blur-[120px] pointer-events-none" />
+      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-blue-600/10 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-600/10 blur-[120px] pointer-events-none" />
       
-      <div className="w-full max-w-md p-10 glass-dark rounded-3xl z-10 relative border border-gray-700/50">
+      <div className="w-full max-w-md p-10 bg-slate-900 shadow-[10px_10px_20px_rgba(0,0,0,0.55),-10px_-10px_20px_rgba(255,255,255,0.02)] rounded-[2.5rem] z-10 relative border-none">
         <div className="flex flex-col items-center mb-10">
-          <div className="p-4 bg-gradient-to-br from-blue-500/20 to-indigo-500/20 rounded-2xl mb-5 shadow-inner border border-blue-500/30">
-            <Wrench className="w-10 h-10 text-blue-400 drop-shadow-md" />
+          <div className="p-5 bg-slate-950/40 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.5)] rounded-2xl mb-5 border-none">
+            <Wrench className="w-10 h-10 text-indigo-400 drop-shadow-[0_0_8px_rgba(99,102,241,0.4)]" />
           </div>
           <h1 className="text-3xl font-black text-white tracking-tight">Taller Udave</h1>
-          <p className="text-gray-400 mt-2 text-sm">Ingresa al sistema de gestión premium</p>
+          <p className="text-slate-500 font-semibold uppercase tracking-widest text-[10px] mt-2">Sistema de Gestión Digital</p>
         </div>
 
-        <form onSubmit={handleLogin} className="space-y-5">
+        <form onSubmit={handleLogin} className="space-y-6">
           {error && (
-            <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-400 text-sm rounded-xl font-medium">
+            <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-2xl font-bold uppercase tracking-wider">
               {error}
             </div>
           )}
           
           <div>
-            <label className="block text-sm font-semibold text-gray-300 mb-2">
+            <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">
               Correo Electrónico
             </label>
             <input
               type="email"
               required
-              className="w-full px-5 py-3 bg-black/40 border border-gray-700/50 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white placeholder-gray-600 transition-all shadow-inner"
+              className="mt-2 block w-full rounded-xl bg-slate-950 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.5)] text-slate-100 text-sm p-3.5 outline-none focus:ring-2 focus:ring-indigo-500/20 border-none transition-all placeholder-slate-700 font-medium"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="admin@tallerudave.com"
@@ -62,20 +62,25 @@ export default function Login() {
           </div>
           
           <div>
-            <label className="block text-sm font-semibold text-gray-300 mb-2">
+            <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">
               Contraseña
             </label>
             <input
               type="password"
               required
-              className="w-full px-5 py-3 bg-black/40 border border-gray-700/50 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-white placeholder-gray-600 transition-all shadow-inner"
+              className="mt-2 block w-full rounded-xl bg-slate-950 shadow-[inset_3px_3px_6px_rgba(0,0,0,0.5)] text-slate-100 text-sm p-3.5 outline-none focus:ring-2 focus:ring-indigo-500/20 border-none transition-all placeholder-slate-700"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
             />
           </div>
-
-          <Button type="submit" className="w-full mt-4 py-3.5 text-base rounded-xl shadow-lg shadow-blue-900/30 border border-white/10" disabled={loading}>
+ 
+          <Button 
+            type="submit" 
+            variant="neumorphic" 
+            className="w-full mt-6 py-3.5 text-sm font-extrabold uppercase tracking-widest text-indigo-400"
+            disabled={loading}
+          >
             {loading ? 'Ingresando...' : 'Iniciar Sesión'}
           </Button>
         </form>

@@ -17,21 +17,24 @@ export function BuscarVehiculo({ onBuscar }: BuscarVehiculoProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2">
+    <form onSubmit={handleSubmit} className="flex gap-4">
       <div className="relative flex-1">
-        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-          <Search className="w-5 h-5 text-gray-400" />
+        <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+          <Search className="w-5 h-5 text-slate-400 dark:text-slate-500" />
         </div>
         <input
           type="text"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 outline-none uppercase"
+          className="w-full pl-11 pr-4 py-3 neumorphic-inset text-slate-800 dark:text-slate-100 text-sm rounded-2xl outline-none focus:ring-2 focus:ring-blue-500/20 uppercase tracking-widest font-extrabold text-center border-none transition-all"
           placeholder="INGRESE PLACA (Ej: ABC123)"
           value={placa}
           onChange={(e) => setPlaca(e.target.value)}
           required
+          title="Placa del Vehículo"
         />
       </div>
-      <Button type="submit" disabled={placa.length < 5}>Buscar</Button>
+      <Button type="submit" variant="neumorphic" disabled={placa.length < 5} className="px-6 rounded-2xl">
+        Buscar
+      </Button>
     </form>
   )
 }

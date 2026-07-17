@@ -35,17 +35,17 @@ export default function Dashboard() {
   return (
     <div className="max-w-6xl mx-auto pb-12 px-4 md:px-0">
       <h1 className="text-3xl font-black text-slate-800 dark:text-white mb-1 tracking-tight">Resumen General</h1>
-      <p className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-8">Estado operativo y financiero del taller</p>
+      <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-8">Estado operativo y financiero del taller</p>
       
       {/* Cards Operativos (Visibles para Owner y Receptionist) */}
-      <h2 className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-5">Estado de Vehículos</h2>
+      <h2 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-5">Estado de Vehículos</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
         <div className="neumorphic-outset border-none p-6 rounded-[2rem] flex items-center transition-all duration-300 hover:scale-[1.015] group">
           <div className="p-4 neumorphic-inset rounded-2xl mr-5 text-indigo-500 border border-slate-200/20 shadow-inner group-hover:scale-105 transition-transform duration-300">
             <Clock className="w-7 h-7" />
           </div>
           <div>
-            <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Ingreso / Diagnóstico</p>
+            <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Ingreso / Diagnóstico</p>
             <p className="text-4xl font-black text-slate-800 dark:text-white mt-1 tracking-tight">{recibidas}</p>
           </div>
         </div>
@@ -55,7 +55,7 @@ export default function Dashboard() {
             <Wrench className="w-7 h-7" />
           </div>
           <div>
-            <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">En Reparación</p>
+            <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">En Reparación</p>
             <p className="text-4xl font-black text-slate-800 dark:text-white mt-1 tracking-tight">{enReparacion}</p>
           </div>
         </div>
@@ -65,7 +65,7 @@ export default function Dashboard() {
             <CheckCircle2 className="w-7 h-7" />
           </div>
           <div>
-            <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Listos para Entrega</p>
+            <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Listos para Entrega</p>
             <p className="text-4xl font-black text-slate-800 dark:text-white mt-1 tracking-tight">{listas}</p>
           </div>
         </div>
@@ -74,14 +74,14 @@ export default function Dashboard() {
       {/* Cards Financieros (EXCLUSIVOS de Owner) */}
       {esOwner && (
         <>
-          <h2 className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-5">Métricas Financieras</h2>
+          <h2 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-5">Métricas Financieras</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
             <div className="neumorphic-outset border-none p-6 rounded-[2rem] flex items-center transition-all duration-300 hover:scale-[1.015] group">
               <div className="p-4 neumorphic-inset rounded-2xl mr-5 text-emerald-500 border border-slate-200/20 shadow-inner group-hover:scale-105 transition-transform duration-300">
                 <TrendingUp className="w-7 h-7" />
               </div>
               <div>
-                <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Facturado Hoy</p>
+                <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Facturado Hoy</p>
                 <p className="text-2xl font-black text-slate-800 dark:text-white mt-1">
                   ${(stats?.revenue_today || 0).toLocaleString('es-CO', { minimumFractionDigits: 0 })}
                 </p>
@@ -93,7 +93,7 @@ export default function Dashboard() {
                 <Wallet className="w-7 h-7" />
               </div>
               <div>
-                <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Pendiente en Taller</p>
+                <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Pendiente en Taller</p>
                 <p className="text-2xl font-black text-slate-800 dark:text-white mt-1">
                   ${(stats?.pending_revenue || 0).toLocaleString('es-CO', { minimumFractionDigits: 0 })}
                 </p>
@@ -106,7 +106,7 @@ export default function Dashboard() {
                   <DollarSign className="w-7 h-7" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Comisiones a Pagar</p>
+                  <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Comisiones a Pagar</p>
                   <p className="text-2xl font-black text-slate-800 dark:text-white mt-1">
                     ${totalComisionesPendientes.toLocaleString('es-CO', { minimumFractionDigits: 0 })}
                   </p>

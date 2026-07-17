@@ -20,38 +20,91 @@
     @apply bg-gray-900/80 backdrop-blur-xl border border-gray-800/50 shadow-xl;
   }
 
+  /* ─── NEUMORFISMO PREMIUM (Claro por defecto) ─── */
+  
+  /* Cóncavo suave para simular refracción de luz realista */
   .neumorphic-outset {
-    background-color: #f1f5f9;
-    box-shadow: 6px 6px 12px #cbd5e1, -6px -6px 12px #ffffff;
-  }
-  .dark .neumorphic-outset {
-    background-color: #1e293b;
-    box-shadow: 6px 6px 12px #0f172a, -6px -6px 12px #2d3a4f;
+    background: linear-gradient(145deg, #ffffff, #e2e8f0);
+    box-shadow: 10px 10px 20px #cbd5e1, -10px -10px 20px #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.6);
   }
 
   .neumorphic-inset {
-    background-color: #f1f5f9;
-    box-shadow: inset 4px 4px 8px #cbd5e1, inset -4px -4px 8px #ffffff;
-  }
-  .dark .neumorphic-inset {
-    background-color: #1e293b;
-    box-shadow: inset 4px 4px 8px #0f172a, inset -4px -4px 8px #2d3a4f;
+    background: #f1f5f9;
+    box-shadow: inset 6px 6px 12px #cbd5e1, inset -6px -6px 12px #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
 
   .neumorphic-btn {
-    background-color: #f1f5f9;
-    box-shadow: 4px 4px 8px #cbd5e1, -4px -4px 8px #ffffff;
-    transition: all 0.2s ease-in-out;
+    background: linear-gradient(145deg, #ffffff, #e2e8f0);
+    box-shadow: 4px 4px 10px #cbd5e1, -4px -4px 10px #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
+  
+  .neumorphic-btn:hover {
+    box-shadow: 6px 6px 14px #cbd5e1, -6px -6px 14px #ffffff;
+    transform: translateY(-1px);
+  }
+  
   .neumorphic-btn:active {
     box-shadow: inset 3px 3px 6px #cbd5e1, inset -3px -3px 6px #ffffff;
-    transform: scale(0.98);
+    transform: translateY(0) scale(0.98);
   }
+
+  /* ─── NEUMORFISMO PREMIUM (Modo Oscuro del Sistema) ─── */
+  @media (prefers-color-scheme: dark) {
+    .neumorphic-outset {
+      background: linear-gradient(145deg, #232f42, #182232) !important;
+      box-shadow: 10px 10px 20px #0e1622, -10px -10px 20px #2a394e !important;
+      border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    }
+
+    .neumorphic-inset {
+      background: #1e293b !important;
+      box-shadow: inset 6px 6px 12px #0e1622, inset -6px -6px 12px #2a394e !important;
+      border: 1px solid rgba(0, 0, 0, 0.2) !important;
+    }
+
+    .neumorphic-btn {
+      background: linear-gradient(145deg, #232f42, #182232) !important;
+      box-shadow: 4px 4px 10px #0e1622, -4px -4px 10px #2a394e !important;
+      border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    }
+    
+    .neumorphic-btn:hover {
+      box-shadow: 6px 6px 14px #0e1622, -6px -6px 14px #2a394e !important;
+    }
+    
+    .neumorphic-btn:active {
+      box-shadow: inset 3px 3px 6px #0e1622, inset -3px -3px 6px #2a394e !important;
+    }
+  }
+
+  /* ─── NEUMORFISMO PREMIUM (Modo Oscuro por Clase HTML) ─── */
+  .dark .neumorphic-outset {
+    background: linear-gradient(145deg, #232f42, #182232);
+    box-shadow: 10px 10px 20px #0e1622, -10px -10px 20px #2a394e;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  
+  .dark .neumorphic-inset {
+    background: #1e293b;
+    box-shadow: inset 6px 6px 12px #0e1622, inset -6px -6px 12px #2a394e;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  }
+  
   .dark .neumorphic-btn {
-    background-color: #1e293b;
-    box-shadow: 4px 4px 8px #0f172a, -4px -4px 8px #2d3a4f;
+    background: linear-gradient(145deg, #232f42, #182232);
+    box-shadow: 4px 4px 10px #0e1622, -4px -4px 10px #2a394e;
+    border: 1px solid rgba(255, 255, 255, 0.05);
   }
+  
+  .dark .neumorphic-btn:hover {
+    box-shadow: 6px 6px 14px #0e1622, -6px -6px 14px #2a394e;
+  }
+  
   .dark .neumorphic-btn:active {
-    box-shadow: inset 3px 3px 6px #0f172a, inset -3px -3px 6px #2d3a4f;
+    box-shadow: inset 3px 3px 6px #0e1622, inset -3px -3px 6px #2a394e;
   }
 }
