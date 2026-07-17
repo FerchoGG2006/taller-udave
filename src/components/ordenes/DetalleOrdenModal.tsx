@@ -25,8 +25,8 @@ export function DetalleOrdenModal({ orden, onClose }: DetalleOrdenModalProps) {
   // Mecánicos seleccionados
   const [mecanicosSeleccionados, setMecanicosSeleccionados] = useState<string[]>([])
 
-  // Nueva foto URL
-  const [fotoUrl, setFotoUrl] = useState('')
+  // Nueva foto uploader
+  const [subiendoFoto, setSubiendoFoto] = useState(false)
   const [fotoTipo, setFotoTipo] = useState<'ingreso' | 'proceso' | 'entrega'>('ingreso')
   const [errorFoto, setErrorFoto] = useState<string | null>(null)
   const [guardando, setGuardando] = useState(false)
@@ -69,7 +69,6 @@ export function DetalleOrdenModal({ orden, onClose }: DetalleOrdenModalProps) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['fotos_orden', orden.id] })
-      setFotoUrl('')
       setErrorFoto(null)
     }
   })
@@ -96,14 +95,38 @@ export function DetalleOrdenModal({ orden, onClose }: DetalleOrdenModalProps) {
     }
   }
 
-  const handleAgregarFoto = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!fotoUrl.trim()) return
+  const handleUploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    
+    setSubiendoFoto(true)
     setErrorFoto(null)
+    
     try {
-      await agregarFoto.mutateAsync({ url: fotoUrl, tipo: fotoTipo })
+      const fileExt = file.name.split('.').pop()
+      const fileName = `ordenes/${orden.id}/${Date.now()}.${fileExt}`
+      
+      const { error: uploadError } = await supabase.storage
+        .from('taller-fotos')
+        .upload(fileName, file, {
+          cacheControl: '3600',
+          upsert: false
+        })
+        
+      if (uploadError) {
+        throw new Error("No se pudo subir la foto: " + uploadError.message)
+      }
+      
+      const { data: { publicUrl } } = supabase.storage
+        .from('taller-fotos')
+        .getPublicUrl(fileName)
+        
+      await agregarFoto.mutateAsync({ url: publicUrl, tipo: fotoTipo })
     } catch (err: any) {
-      setErrorFoto(err.message || "Error al agregar foto")
+      setErrorFoto(err.message || "Error al subir la imagen")
+    } finally {
+      setSubiendoFoto(false)
+      e.target.value = ''
     }
   }
 
@@ -140,7 +163,7 @@ export function DetalleOrdenModal({ orden, onClose }: DetalleOrdenModalProps) {
               Vehículo: <strong className="text-gray-700 uppercase">{orden.vehiculos?.placa}</strong> ({orden.vehiculos?.marca} {orden.vehiculos?.modelo})
             </p>
           </div>
-          <button onClick={onClose} className="p-1.5 hover:bg-gray-100 rounded-lg text-gray-400 hover:text-gray-700 transition-colors">
+          <button onClick={onClose} title="Cerrar modal" className="p-1.5 hover:bg-gray-100 rounded-lg text-gray-400 hover:text-gray-700 transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -172,6 +195,9 @@ export function DetalleOrdenModal({ orden, onClose }: DetalleOrdenModalProps) {
                   <DollarSign className="w-3.5 h-3.5 text-gray-400" /> Mano de Obra ($)
                 </label>
                 <input
+                  id="mano-obra"
+                  title="Mano de obra"
+                  placeholder="0"
                   type="number"
                   min="0"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
@@ -185,6 +211,9 @@ export function DetalleOrdenModal({ orden, onClose }: DetalleOrdenModalProps) {
                   <DollarSign className="w-3.5 h-3.5 text-gray-400" /> Repuestos / Piezas ($)
                 </label>
                 <input
+                  id="repuestos"
+                  title="Repuestos"
+                  placeholder="0"
                   type="number"
                   min="0"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
@@ -200,6 +229,8 @@ export function DetalleOrdenModal({ orden, onClose }: DetalleOrdenModalProps) {
                   <Calendar className="w-3.5 h-3.5 text-gray-400" /> Entrega Estimada
                 </label>
                 <input
+                  id="entrega-estimada"
+                  title="Entrega estimada"
                   type="date"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 outline-none text-sm bg-white"
                   value={fechaEntrega}
@@ -271,38 +302,38 @@ export function DetalleOrdenModal({ orden, onClose }: DetalleOrdenModalProps) {
                 <ImageIcon className="w-4 h-4" /> Control de Fotos ({fotos?.length || 0})
               </h3>
 
-              {/* Formulario para agregar Foto por URL */}
-              <form onSubmit={handleAgregarFoto} className="flex gap-2 mb-4">
-                <div className="flex-1 flex flex-col gap-1">
-                  <input
-                    type="url"
-                    required
-                    className="w-full px-3 py-1.5 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 outline-none text-xs"
-                    value={fotoUrl}
-                    onChange={(e) => setFotoUrl(e.target.value)}
-                    placeholder="Enlace de la imagen (URL)..."
-                  />
-                  {errorFoto && <span className="text-[10px] text-red-500">{errorFoto}</span>}
+              {/* Cargador de Archivos a Supabase Storage */}
+              <div className="mb-4 space-y-2">
+                <div className="flex gap-2">
+                  <select
+                    title="Tipo de foto"
+                    className="px-2.5 py-1.5 border border-gray-300 rounded-md text-xs bg-white outline-none"
+                    value={fotoTipo}
+                    onChange={(e) => setFotoTipo(e.target.value as any)}
+                  >
+                    <option value="ingreso">Ingreso</option>
+                    <option value="proceso">Proceso</option>
+                    <option value="entrega">Entrega</option>
+                  </select>
+
+                  <label className={`flex-1 flex items-center justify-center border border-gray-300 border-dashed rounded-lg bg-gray-50/50 hover:bg-gray-50 cursor-pointer text-xs font-semibold text-gray-600 transition-colors p-2 select-none ${subiendoFoto ? 'pointer-events-none opacity-60' : ''}`}>
+                    {subiendoFoto ? (
+                      <Loader2 className="w-4 h-4 animate-spin mr-1.5 text-blue-500" />
+                    ) : (
+                      <PlusCircle className="w-4 h-4 mr-1.5 text-gray-500" />
+                    )}
+                    {subiendoFoto ? 'Subiendo imagen...' : 'Seleccionar y Subir Foto'}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handleUploadFile}
+                      disabled={subiendoFoto}
+                    />
+                  </label>
                 </div>
-                <select
-                  className="px-2.5 border border-gray-300 rounded-md text-xs bg-white outline-none"
-                  value={fotoTipo}
-                  onChange={(e) => setFotoTipo(e.target.value as any)}
-                >
-                  <option value="ingreso">Ingreso</option>
-                  <option value="proceso">Proceso</option>
-                  <option value="entrega">Entrega</option>
-                </select>
-                <button
-                  type="submit"
-                  disabled={agregarFoto.isPending}
-                  className="bg-gray-900 hover:bg-gray-800 text-white p-2 rounded-md hover:shadow-sm transition-colors"
-                  aria-label="Agregar foto"
-                  title="Agregar foto"
-                >
-                  <PlusCircle className="w-4 h-4" />
-                </button>
-              </form>
+                {errorFoto && <span className="text-[10px] text-red-500 font-medium block">{errorFoto}</span>}
+              </div>
 
               {/* Lista de Fotos Cargadas */}
               {isLoadingFotos ? (

@@ -6,8 +6,9 @@
 
 @layer base {
   body {
-    @apply antialiased text-gray-900 bg-gray-50;
+    @apply antialiased text-slate-800 bg-slate-100 dark:text-slate-100 dark:bg-slate-900;
     font-family: 'Inter', sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 }
 
@@ -17,5 +18,40 @@
   }
   .glass-dark {
     @apply bg-gray-900/80 backdrop-blur-xl border border-gray-800/50 shadow-xl;
+  }
+
+  .neumorphic-outset {
+    background-color: #f1f5f9;
+    box-shadow: 6px 6px 12px #cbd5e1, -6px -6px 12px #ffffff;
+  }
+  .dark .neumorphic-outset {
+    background-color: #1e293b;
+    box-shadow: 6px 6px 12px #0f172a, -6px -6px 12px #2d3a4f;
+  }
+
+  .neumorphic-inset {
+    background-color: #f1f5f9;
+    box-shadow: inset 4px 4px 8px #cbd5e1, inset -4px -4px 8px #ffffff;
+  }
+  .dark .neumorphic-inset {
+    background-color: #1e293b;
+    box-shadow: inset 4px 4px 8px #0f172a, inset -4px -4px 8px #2d3a4f;
+  }
+
+  .neumorphic-btn {
+    background-color: #f1f5f9;
+    box-shadow: 4px 4px 8px #cbd5e1, -4px -4px 8px #ffffff;
+    transition: all 0.2s ease-in-out;
+  }
+  .neumorphic-btn:active {
+    box-shadow: inset 3px 3px 6px #cbd5e1, inset -3px -3px 6px #ffffff;
+    transform: scale(0.98);
+  }
+  .dark .neumorphic-btn {
+    background-color: #1e293b;
+    box-shadow: 4px 4px 8px #0f172a, -4px -4px 8px #2d3a4f;
+  }
+  .dark .neumorphic-btn:active {
+    box-shadow: inset 3px 3px 6px #0f172a, inset -3px -3px 6px #2d3a4f;
   }
 }

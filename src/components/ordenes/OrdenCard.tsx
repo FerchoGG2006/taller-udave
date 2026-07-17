@@ -1,15 +1,24 @@
 import { useState } from 'react'
 import { EstadoBadge } from './EstadoBadge'
-import { Button } from '../ui/Button'
-import { type EstadoOrden, type Orden } from '../../types'
+import { type EstadoOrden, type Orden, type Vehiculo, type Cliente, type OrderMechanic } from '../../types'
 import { useCambiarEstadoOrden } from '../../hooks/useOrdenes'
 import { DetalleOrdenModal } from './DetalleOrdenModal'
 import { Clipboard, Phone, User, Users, DollarSign, MessageSquare } from 'lucide-react'
 
 const WEB_PORTAL_URL = import.meta.env.VITE_WEB_PORTAL_URL || 'https://taller-udave.web.app'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function OrdenCard({ orden }: { orden: Orden & { vehiculos?: Record<string, any>, order_mechanics?: any[] } }) {
+export function OrdenCard({ orden }: { 
+  orden: Orden & { 
+    vehiculos?: Vehiculo & { 
+      clientes?: Cliente 
+    }, 
+    order_mechanics?: (OrderMechanic & { 
+      profiles?: { 
+        full_name?: string 
+      } | null
+    })[] 
+  } 
+}) {
   const cambiarEstado = useCambiarEstadoOrden()
   const [loading, setLoading] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
@@ -54,7 +63,7 @@ export function OrdenCard({ orden }: { orden: Orden & { vehiculos?: Record<strin
 
   // Lista de mecánicos asignados
   const nombresMecanicos = orden.order_mechanics
-    ?.map((om: { profiles?: { full_name?: string } }) => om.profiles?.full_name)
+    ?.map((om) => om.profiles?.full_name)
     .filter(Boolean)
     .join(', ') || 'Sin asignar'
 
@@ -62,75 +71,107 @@ export function OrdenCard({ orden }: { orden: Orden & { vehiculos?: Record<strin
   const totalEstimado = (orden.labor_cost || 0) + (orden.parts_cost || 0)
 
   return (
-    <div className="glass rounded-2xl p-6 flex flex-col h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1 group">
+    <div className="neumorphic-outset border-none rounded-[2rem] p-6 flex flex-col h-full transition-all duration-350 hover:scale-[1.015] group">
       <div className="flex justify-between items-start mb-5">
         <div>
-          <h3 className="text-2xl font-black text-gray-900 uppercase tracking-tight group-hover:text-blue-600 transition-colors">{orden.vehiculos?.placa}</h3>
-          <p className="text-sm text-gray-500 font-medium">{orden.vehiculos?.marca} {orden.vehiculos?.modelo}</p>
+          <h3 className="text-2xl font-black text-slate-800 dark:text-white uppercase tracking-tight group-hover:text-indigo-600 transition-colors">{orden.vehiculos?.placa}</h3>
+          <p className="text-xs font-semibold text-slate-400 dark:text-slate-500 mt-0.5">{orden.vehiculos?.marca} {orden.vehiculos?.modelo}</p>
         </div>
         <EstadoBadge estado={orden.estado as EstadoOrden} />
       </div>
 
-      <div className="text-sm text-gray-600 mb-5 flex-1 space-y-3 border-t border-gray-100/50 pt-4">
-        <div className="flex items-center gap-2.5 text-xs">
-          <div className="p-1.5 bg-gray-100 rounded-lg"><User className="w-4 h-4 text-gray-500" /></div>
-          <span className="text-gray-700"><strong>Cliente:</strong> {orden.vehiculos?.clientes?.nombre}</span>
+      <div className="text-sm text-slate-600 dark:text-slate-400 mb-5 flex-1 space-y-3 pt-4">
+        <div className="flex items-center gap-3 text-xs">
+          <div className="p-2 neumorphic-inset border-none rounded-xl text-slate-500 shrink-0 shadow-inner">
+            <User className="w-4 h-4" />
+          </div>
+          <span className="text-slate-700 dark:text-slate-350">
+            <strong>Cliente:</strong> {orden.vehiculos?.clientes?.nombre}
+          </span>
         </div>
-        <div className="flex items-center gap-2.5 text-xs">
-          <div className="p-1.5 bg-gray-100 rounded-lg"><Phone className="w-4 h-4 text-gray-500" /></div>
-          <span className="text-gray-700"><strong>Teléfono:</strong> {orden.vehiculos?.clientes?.telefono}</span>
+        <div className="flex items-center gap-3 text-xs">
+          <div className="p-2 neumorphic-inset border-none rounded-xl text-slate-500 shrink-0 shadow-inner">
+            <Phone className="w-4 h-4" />
+          </div>
+          <span className="text-slate-700 dark:text-slate-350">
+            <strong>Teléfono:</strong> {orden.vehiculos?.clientes?.telefono}
+          </span>
         </div>
-        <div className="flex items-center gap-2.5 text-xs">
-          <div className="p-1.5 bg-gray-100 rounded-lg"><Users className="w-4 h-4 text-gray-500" /></div>
-          <span className="truncate text-gray-700"><strong>Mecánicos:</strong> <span className="text-gray-500">{nombresMecanicos}</span></span>
+        <div className="flex items-center gap-3 text-xs">
+          <div className="p-2 neumorphic-inset border-none rounded-xl text-slate-500 shrink-0 shadow-inner">
+            <Users className="w-4 h-4" />
+          </div>
+          <span className="truncate text-slate-700 dark:text-slate-350">
+            <strong>Mecánicos:</strong> <span className="text-slate-500">{nombresMecanicos}</span>
+          </span>
         </div>
 
         {totalEstimado > 0 && (
-          <div className="flex items-center gap-2.5 text-xs bg-gradient-to-r from-emerald-50 to-green-50 p-2.5 rounded-xl border border-green-100/50 shadow-sm mt-4">
-            <div className="p-1 bg-white rounded-md shadow-sm"><DollarSign className="w-4 h-4 text-green-600" /></div>
-            <span className="font-medium text-green-800">Presupuesto: <strong className="text-green-900 text-sm">${totalEstimado.toLocaleString('es-CO')}</strong></span>
+          <div className="flex items-center gap-3 text-xs bg-emerald-500/5 dark:bg-emerald-500/10 p-3 rounded-2xl border border-emerald-500/10 shadow-sm mt-4">
+            <div className="p-1.5 neumorphic-inset border-none rounded-lg text-emerald-600"><DollarSign className="w-4 h-4" /></div>
+            <span className="font-semibold text-emerald-800 dark:text-emerald-400">Presupuesto: <strong className="text-emerald-700 dark:text-emerald-400 text-sm font-black">${totalEstimado.toLocaleString('es-CO')}</strong></span>
           </div>
         )}
 
         {orden.observaciones && (
-          <div className="mt-4 p-3 bg-white/50 rounded-xl text-xs text-gray-600 italic border border-gray-100 shadow-sm">
+          <div className="mt-4 p-4 neumorphic-inset border-none rounded-2xl text-xs text-slate-500 italic leading-relaxed shadow-inner">
             "{orden.observaciones}"
           </div>
         )}
       </div>
 
-      <div className="pt-5 border-t border-gray-100/50 mt-auto flex flex-wrap gap-2.5">
+      <div className="pt-5 border-t border-slate-200/50 dark:border-slate-700/50 mt-auto flex flex-wrap gap-2.5">
         <button
           onClick={() => setModalOpen(true)}
-          className="flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3.5 py-2.5 rounded-xl transition-all hover:shadow-sm"
+          className="flex items-center gap-1.5 text-xs font-bold text-indigo-600 dark:text-indigo-400 neumorphic-btn border-none px-4 py-2.5 rounded-2xl"
         >
           <Clipboard className="w-4 h-4" /> Ficha de Trabajo
         </button>
 
         {orden.estado === 'recibido' && (
-          <Button size="sm" onClick={() => handleUpdateEstado('diagnostico')} disabled={loading} className="rounded-xl px-4 py-2">
+          <button 
+            onClick={() => handleUpdateEstado('diagnostico')} 
+            disabled={loading} 
+            className="text-xs font-extrabold text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 px-4 py-2.5 rounded-2xl shadow-md transition-all active:scale-[0.98]"
+          >
             Iniciar Diagnóstico
-          </Button>
+          </button>
         )}
         {orden.estado === 'diagnostico' && (
-          <Button size="sm" onClick={handleEnviarCliente} disabled={loading} className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white flex items-center gap-1.5 shadow-md shadow-amber-500/20 rounded-xl px-4 py-2 border-0">
+          <button 
+            onClick={handleEnviarCliente} 
+            disabled={loading} 
+            className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white flex items-center gap-1.5 shadow-md shadow-amber-500/20 text-xs font-bold px-4 py-2.5 rounded-2xl transition-all active:scale-[0.98]"
+          >
             <MessageSquare className="w-4 h-4" /> Enviar a Cliente
-          </Button>
+          </button>
         )}
         {orden.estado === 'esperando_aprobacion' && (
-          <Button size="sm" variant="secondary" onClick={() => handleUpdateEstado('en_reparacion')} disabled={loading} className="rounded-xl px-4 py-2">
+          <button 
+            onClick={() => handleUpdateEstado('en_reparacion')} 
+            disabled={loading} 
+            className="text-xs font-bold text-slate-700 dark:text-slate-300 neumorphic-btn border-none px-4 py-2.5 rounded-2xl"
+          >
             Aprobación Manual
-          </Button>
+          </button>
         )}
         {orden.estado === 'en_reparacion' && (
-          <Button size="sm" onClick={() => handleUpdateEstado('listo')} disabled={loading} className="bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white shadow-md shadow-green-500/20 rounded-xl px-4 py-2 border-0">
+          <button 
+            onClick={() => handleUpdateEstado('listo')} 
+            disabled={loading} 
+            className="bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white shadow-md shadow-green-500/20 text-xs font-bold px-4 py-2.5 rounded-2xl transition-all active:scale-[0.98]"
+          >
             Marcar como Listo
-          </Button>
+          </button>
         )}
         {orden.estado === 'listo' && (
-          <Button size="sm" variant="secondary" onClick={() => handleUpdateEstado('entregado')} disabled={loading} className="rounded-xl px-4 py-2">
+          <button 
+            onClick={() => handleUpdateEstado('entregado')} 
+            disabled={loading} 
+            className="text-xs font-bold text-slate-700 dark:text-slate-300 neumorphic-btn border-none px-4 py-2.5 rounded-2xl"
+          >
             Entregar Vehículo
-          </Button>
+          </button>
         )}
       </div>
 
