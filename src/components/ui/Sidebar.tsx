@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
-import { LayoutDashboard, PlusCircle, List, History, LogOut, DollarSign, Users, Sparkles } from 'lucide-react'
+import { LayoutDashboard, PlusCircle, List, History, LogOut, DollarSign, Users, Sparkles, CalendarDays } from 'lucide-react'
 import { cn } from '../../lib/utils'
 import { supabase } from '../../lib/supabase'
 import { useActiveProfile } from '../../hooks/useProfiles'
@@ -34,6 +34,7 @@ export function Sidebar() {
     if (profile.role === 'owner') {
       menuItems.push(
         { icon: LayoutDashboard, label: 'Dashboard', path: '/' },
+        { icon: CalendarDays, label: 'Citas', path: '/citas' },
         { icon: PlusCircle, label: 'Nueva Orden', path: '/nueva-orden' },
         { icon: List, label: 'Órdenes Activas', path: '/ordenes' },
         { icon: History, label: 'Historial', path: '/historial' },
@@ -43,6 +44,7 @@ export function Sidebar() {
     } else if (profile.role === 'receptionist') {
       menuItems.push(
         { icon: LayoutDashboard, label: 'Dashboard', path: '/' },
+        { icon: CalendarDays, label: 'Citas', path: '/citas' },
         { icon: PlusCircle, label: 'Nueva Orden', path: '/nueva-orden' },
         { icon: List, label: 'Órdenes Activas', path: '/ordenes' },
         { icon: History, label: 'Historial', path: '/historial' },

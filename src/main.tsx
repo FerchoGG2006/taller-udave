@@ -11,6 +11,8 @@ import Historial from './pages/Historial.tsx'
 import Personal from './pages/Personal.tsx'
 import Comisiones from './pages/Comisiones.tsx'
 import AprobacionCliente from './pages/AprobacionCliente.tsx'
+import Agendamiento from './pages/Agendamiento.tsx'
+import EncuestaCliente from './pages/EncuestaCliente.tsx'
 
 const router = createBrowserRouter([
   {
@@ -24,7 +26,9 @@ const router = createBrowserRouter([
       { path: '/historial', element: <Historial /> },
       { path: '/personal', element: <Personal /> },
       { path: '/comisiones', element: <Comisiones /> },
+      { path: '/citas', element: <Agendamiento /> },
       { path: '/cliente/orden/:id', element: <AprobacionCliente /> },
+      { path: '/cliente/encuesta/:id', element: <EncuestaCliente /> },
     ]
   }
 ])

@@ -3,6 +3,7 @@ import { useProfiles, useCrearPerfil, useActualizarPerfil, useActiveProfile } fr
 import { Navigate } from 'react-router-dom'
 import { Button } from '../components/ui/Button'
 import { PlusCircle, Edit2, CheckCircle2, XCircle, Shield, Phone, Percent, Loader2 } from 'lucide-react'
+import type { Profile } from '../types'
 
 export default function Personal() {
   const { data: activeUser } = useActiveProfile()
@@ -12,7 +13,7 @@ export default function Personal() {
 
   // State para modales/formularios
   const [modalAbierto, setModalAbierto] = useState(false)
-  const [editando, setEditando] = useState<any>(null)
+  const [editando, setEditando] = useState<Profile | null>(null)
   
   // Campos del formulario
   const [nombre, setNombre] = useState('')
@@ -42,11 +43,11 @@ export default function Personal() {
     setModalAbierto(true)
   }
 
-  const abrirEditar = (perfil: any) => {
+  const abrirEditar = (perfil: Profile) => {
     setEditando(perfil)
     setNombre(perfil.full_name)
     setTelefono(perfil.phone || '')
-    setRol(perfil.role)
+    setRol(perfil.role as 'receptionist' | 'mechanic')
     setComision(String(perfil.commission_percentage || 0))
     setActivo(perfil.is_active)
     setFormError(null)
@@ -91,8 +92,8 @@ export default function Personal() {
         })
       }
       setModalAbierto(false)
-    } catch (err: any) {
-      setFormError(err.message || "Ocurrió un error al guardar el perfil")
+    } catch (err) {
+      setFormError(err instanceof Error ? err.message : String(err))
     }
   }
 
@@ -239,9 +240,10 @@ export default function Personal() {
               <div>
                 <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Rol de Trabajo</label>
                 <select
+                  title="Rol de trabajo"
                   className="mt-2 block w-full rounded-xl neumorphic-inset text-slate-800 dark:text-slate-100 text-sm p-3 outline-none focus:ring-2 focus:ring-blue-500/20 border-none transition-all bg-transparent cursor-pointer appearance-none font-medium"
                   value={rol}
-                  onChange={(e) => setRol(e.target.value as any)}
+                  onChange={(e) => setRol(e.target.value as 'mechanic' | 'receptionist')}
                 >
                   <option value="mechanic" className="dark:bg-slate-900">Mecánico</option>
                   <option value="receptionist" className="dark:bg-slate-900">Recepcionista / Asesor</option>
@@ -255,6 +257,8 @@ export default function Personal() {
                     type="number"
                     min="0"
                     max="100"
+                    title="Porcentaje de comisión"
+                    placeholder="Ej: 30"
                     className="mt-2 block w-full rounded-xl neumorphic-inset text-slate-800 dark:text-slate-100 text-sm p-3 outline-none focus:ring-2 focus:ring-blue-500/20 border-none transition-all font-bold"
                     value={comision}
                     onChange={(e) => setComision(e.target.value)}

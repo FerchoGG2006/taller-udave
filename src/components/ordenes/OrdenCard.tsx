@@ -89,13 +89,29 @@ export function OrdenCard({ orden }: {
             <strong>Cliente:</strong> {orden.vehiculos?.clientes?.nombre}
           </span>
         </div>
-        <div className="flex items-center gap-3 text-xs">
-          <div className="p-2 neumorphic-inset border-none rounded-xl text-slate-500 shrink-0 shadow-inner">
-            <Phone className="w-4 h-4" />
+        <div className="flex items-center justify-between text-xs w-full">
+          <div className="flex items-center gap-3">
+            <div className="p-2 neumorphic-inset border-none rounded-xl text-slate-500 shrink-0 shadow-inner">
+              <Phone className="w-4 h-4" />
+            </div>
+            <span className="text-slate-700 dark:text-slate-350">
+              <strong>Teléfono:</strong> {orden.vehiculos?.clientes?.telefono}
+            </span>
           </div>
-          <span className="text-slate-700 dark:text-slate-350">
-            <strong>Teléfono:</strong> {orden.vehiculos?.clientes?.telefono}
-          </span>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              const telefono = orden.vehiculos?.clientes?.telefono || '';
+              const cleanPhone = telefono.replace(/[^0-9]/g, '');
+              const mensaje = `Hola ${orden.vehiculos?.clientes?.nombre}, te escribimos de *Taller Udave*. 🛠️\n\n¿En qué podemos ayudarte con tu ${orden.vehiculos?.marca} ${orden.vehiculos?.modelo} (Placa: ${orden.vehiculos?.placa.toUpperCase()})?`;
+              window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(mensaje)}`, '_blank');
+            }}
+            className="flex items-center justify-center p-2 rounded-full bg-emerald-500 text-white shadow-[0_0_15px_rgba(16,185,129,0.5)] hover:scale-110 transition-transform cursor-pointer"
+            title="Contactar por WhatsApp"
+          >
+            <MessageSquare className="w-4 h-4" />
+          </button>
         </div>
         <div className="flex items-center gap-3 text-xs">
           <div className="p-2 neumorphic-inset border-none rounded-xl text-slate-500 shrink-0 shadow-inner">
