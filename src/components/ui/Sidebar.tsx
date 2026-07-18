@@ -18,7 +18,7 @@ export function Sidebar() {
       <aside className="glass-dark flex flex-col w-64 h-screen px-4 py-8 z-10 relative">
         <div className="flex items-center justify-center mb-10">
           <Sparkles className="w-6 h-6 text-blue-400 mr-2 animate-pulse" />
-          <h2 className="text-2xl font-black text-white tracking-tight">Taller Udave</h2>
+          <h2 className="text-2xl font-black text-white tracking-tight">Cargando...</h2>
         </div>
         <div className="flex-1 flex items-center justify-center text-sm text-gray-500 animate-pulse">
           Cargando perfil...
@@ -51,7 +51,7 @@ export function Sidebar() {
       )
     } else if (profile.role === 'mechanic') {
       menuItems.push(
-        { icon: List, label: 'Mis Órdenes', path: '/ordenes' },
+        { icon: LayoutDashboard, label: 'Panel Mecánico', path: '/panel-mecanico' },
       )
     }
   }
@@ -62,7 +62,9 @@ export function Sidebar() {
         <div className="flex flex-col items-center transition-transform group-hover:scale-105 duration-300">
           <div className="flex items-center">
              <Sparkles className="w-6 h-6 text-blue-500 mr-2 opacity-80" />
-             <h2 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 tracking-tight">Taller Udave</h2>
+             <h2 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 tracking-tight text-center leading-tight">
+               {(profile as unknown as { talleres?: { nombre_negocio: string } })?.talleres?.nombre_negocio || 'TallerBoost'}
+             </h2>
           </div>
           {profile && (
             <span className="text-[10px] uppercase tracking-widest bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-blue-300 border border-blue-500/30 px-3 py-1 rounded-full mt-3 font-bold shadow-[0_0_10px_rgba(59,130,246,0.2)]">

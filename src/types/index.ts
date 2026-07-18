@@ -8,11 +8,19 @@ export type EstadoOrden =
 
 export type UserRole = 'owner' | 'receptionist' | 'mechanic'
 
+export interface Taller {
+  id: string
+  nombre_negocio: string
+  logo_url?: string
+  created_at: string
+}
+
 export interface Profile {
   id: string
   full_name: string
   phone?: string
   role: UserRole
+  taller_id: string
   commission_percentage?: number
   is_active: boolean
   created_at: string
@@ -23,6 +31,7 @@ export interface Cliente {
   id: string
   nombre: string
   telefono: string
+  taller_id: string
   cedula?: string
   created_at: string
 }
@@ -30,6 +39,7 @@ export interface Cliente {
 export interface Vehiculo {
   id: string
   cliente_id: string
+  taller_id: string
   placa: string
   marca: string
   modelo: string
@@ -41,6 +51,7 @@ export interface Orden {
   id: string
   order_number?: number
   vehiculo_id: string
+  taller_id: string
   receptionist_id?: string
   fecha_ingreso: string
   fecha_entrega_estimada?: string
@@ -60,6 +71,7 @@ export interface Orden {
 export interface ItemOrden {
   id: string
   orden_id: string
+  taller_id: string
   descripcion: string
   precio: number
   aprobado: boolean
@@ -68,6 +80,7 @@ export interface ItemOrden {
 export interface FotoOrden {
   id: string
   orden_id: string
+  taller_id: string
   url: string
   tipo: 'ingreso' | 'proceso' | 'entrega'
 }
@@ -76,6 +89,7 @@ export interface OrderMechanic {
   id: string
   orden_id: string
   mechanic_id: string
+  taller_id: string
   commission_percentage: number
   commission_amount: number
   is_commission_paid: boolean
@@ -86,6 +100,7 @@ export interface OrderStatusHistory {
   id: string
   orden_id: string
   changed_by: string
+  taller_id: string
   previous_status?: string
   new_status: string
   note?: string

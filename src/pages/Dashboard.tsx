@@ -20,7 +20,7 @@ export default function Dashboard() {
 
   // Redirigir a mecánicos directamente a su lista de órdenes asignadas
   if (profile?.role === 'mechanic') {
-    return <Navigate to="/ordenes" replace />
+    return <Navigate to="/panel-mecanico" replace />
   }
 
   // Estadísticas del día

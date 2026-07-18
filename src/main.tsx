@@ -13,6 +13,8 @@ import Comisiones from './pages/Comisiones.tsx'
 import AprobacionCliente from './pages/AprobacionCliente.tsx'
 import Agendamiento from './pages/Agendamiento.tsx'
 import EncuestaCliente from './pages/EncuestaCliente.tsx'
+import RegistroTaller from './pages/RegistroTaller.tsx'
+import PanelMecanico from './pages/PanelMecanico.tsx'
 
 const router = createBrowserRouter([
   {
@@ -21,6 +23,8 @@ const router = createBrowserRouter([
     children: [
       { path: '/', element: <Dashboard /> },
       { path: '/login', element: <Login /> },
+      { path: '/registro-taller', element: <RegistroTaller /> },
+      { path: '/panel-mecanico', element: <PanelMecanico /> },
       { path: '/nueva-orden', element: <NuevaOrden /> },
       { path: '/ordenes', element: <Ordenes /> },
       { path: '/historial', element: <Historial /> },

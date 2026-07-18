@@ -1,17 +1,37 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
-import { Calendar as CalendarIcon, Clock, User, Car, Plus, X, Loader2, Sparkles, AlertCircle } from 'lucide-react'
+import { Calendar as CalendarIcon, Clock, User, Car, Plus, X, Loader2, AlertCircle, CheckCircle, Trash2 } from 'lucide-react'
 import { Button } from '../components/ui/Button'
 
+interface CitaType {
+  id: string
+  fecha_cita: string
+  estado: string
+  motivo: string
+  notas?: string
+  vehiculos?: { placa: string; marca: string }
+  clientes?: { nombre: string }
+}
+
+interface ClienteType {
+  id: string
+  nombre: string
+}
+
+interface VehiculoType {
+  id: string
+  placa: string
+  cliente_id: string
+}
+
 export default function Agendamiento() {
-  const [citas, setCitas] = useState<any[]>([])
+  const [citas, setCitas] = useState<CitaType[]>([])
   const [loading, setLoading] = useState(true)
   const [modalOpen, setModalOpen] = useState(false)
   const [saving, setSaving] = useState(false)
   
-  // Opciones temporales (En producción vendrían de la DB)
-  const [clientes, setClientes] = useState<any[]>([])
-  const [vehiculos, setVehiculos] = useState<any[]>([])
+  const [clientes, setClientes] = useState<ClienteType[]>([])
+  const [vehiculos, setVehiculos] = useState<VehiculoType[]>([])
   
   const [form, setForm] = useState({
     cliente_id: '',
@@ -22,27 +42,27 @@ export default function Agendamiento() {
     notas: ''
   })
 
-  useEffect(() => {
-    fetchData()
-  }, [])
-
   const fetchData = async () => {
-    setLoading(true)
     try {
       const [resCitas, resClientes, resVehiculos] = await Promise.all([
         supabase.from('citas').select('*, vehiculos(placa, marca), clientes(nombre)').order('fecha_cita', { ascending: true }),
         supabase.from('clientes').select('id, nombre').order('nombre'),
         supabase.from('vehiculos').select('id, placa, cliente_id').order('placa')
       ])
-      if (resCitas.data) setCitas(resCitas.data)
-      if (resClientes.data) setClientes(resClientes.data)
-      if (resVehiculos.data) setVehiculos(resVehiculos.data)
+      if (resCitas.data) setCitas(resCitas.data as unknown as CitaType[])
+      if (resClientes.data) setClientes(resClientes.data as ClienteType[])
+      if (resVehiculos.data) setVehiculos(resVehiculos.data as VehiculoType[])
     } catch (error) {
       console.error('Error fetching data:', error)
     } finally {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    // eslint-disable-next-line
+    fetchData()
+  }, [])
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -66,6 +86,29 @@ export default function Agendamiento() {
       alert('Error guardando cita')
     } finally {
       setSaving(false)
+    }
+  }
+
+  const actualizarEstadoCita = async (id: string, nuevoEstado: string) => {
+    try {
+      const { error } = await supabase.from('citas').update({ estado: nuevoEstado }).eq('id', id)
+      if (error) throw error
+      fetchData()
+    } catch (err) {
+      console.error(err)
+      alert('Error actualizando la cita')
+    }
+  }
+
+  const eliminarCita = async (id: string) => {
+    if (!confirm('¿Estás seguro de eliminar esta cita?')) return
+    try {
+      const { error } = await supabase.from('citas').delete().eq('id', id)
+      if (error) throw error
+      fetchData()
+    } catch (err) {
+      console.error(err)
+      alert('Error eliminando la cita')
     }
   }
 
@@ -127,9 +170,28 @@ export default function Agendamiento() {
                       <Car className="w-4 h-4 text-slate-400" /> {cita.vehiculos?.marca} - <span className="font-mono text-indigo-500">{cita.vehiculos?.placa}</span>
                     </p>
                   </div>
-                  <div className="mt-2 text-sm text-slate-600 dark:text-slate-400 p-3 neumorphic-inset rounded-xl">
+                  <div className="mt-2 text-sm text-slate-600 dark:text-slate-400 p-3 neumorphic-inset rounded-xl mb-3">
                     <p className="font-semibold text-slate-700 dark:text-slate-300 mb-1">Motivo:</p>
                     <p className="italic text-xs">{cita.motivo}</p>
+                  </div>
+                  {/* Botones de Acción */}
+                  <div className="flex gap-2 mt-auto border-t border-slate-200/40 dark:border-slate-700/40 pt-4">
+                    {cita.estado !== 'completada' && (
+                      <button 
+                        onClick={() => actualizarEstadoCita(cita.id, 'completada')}
+                        title="Marcar como completada"
+                        className="flex-1 flex items-center justify-center gap-1 text-xs font-bold bg-emerald-500 hover:bg-emerald-600 text-white py-2 rounded-xl transition-colors shadow-sm"
+                      >
+                        <CheckCircle className="w-3.5 h-3.5" /> Completar
+                      </button>
+                    )}
+                    <button 
+                      onClick={() => eliminarCita(cita.id)}
+                      title="Eliminar cita"
+                      className="flex-1 flex items-center justify-center gap-1 text-xs font-bold text-red-500 hover:text-white hover:bg-red-500 py-2 rounded-xl transition-colors border border-red-500/20 hover:border-red-500 shadow-sm"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" /> Eliminar
+                    </button>
                   </div>
                 </div>
               )

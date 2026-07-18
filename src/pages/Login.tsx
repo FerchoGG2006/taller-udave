@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { Button } from '../components/ui/Button'
 import { Wrench } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -83,6 +84,16 @@ export default function Login() {
           >
             {loading ? 'Ingresando...' : 'Iniciar Sesión'}
           </Button>
+          
+          <div className="mt-8 pt-6 border-t border-slate-800 text-center">
+            <p className="text-slate-500 text-xs font-semibold mb-2">¿Aún no usas el sistema en tu negocio?</p>
+            <Link 
+              to="/registro-taller" 
+              className="text-indigo-400 hover:text-indigo-300 text-sm font-bold transition-colors"
+            >
+              Registra tu Taller Gratis
+            </Link>
+          </div>
         </form>
       </div>
     </div>

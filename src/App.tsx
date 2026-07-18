@@ -30,7 +30,7 @@ function App() {
     return <div className="flex h-screen items-center justify-center">Cargando...</div>
   }
 
-  const isPublicRoute = location.pathname.startsWith('/cliente/')
+  const isPublicRoute = location.pathname.startsWith('/cliente/') || location.pathname === '/registro-taller'
 
   // Si no hay sesión, no está en login, y no es ruta pública, redirigir a /login
   if (!session && location.pathname !== '/login' && !isPublicRoute) {

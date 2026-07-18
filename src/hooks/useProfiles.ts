@@ -61,12 +61,12 @@ export function useActiveProfile() {
       
       const { data, error } = await supabase
         .from('profiles')
-        .select('*')
+        .select('*, talleres(nombre_negocio)')
         .eq('id', session.user.id)
         .single()
 
       if (error) throw new Error(error.message)
-      return data as Profile
+      return data as Profile & { talleres?: { nombre_negocio: string } }
     }
   })
 }
