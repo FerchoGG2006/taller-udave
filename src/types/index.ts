@@ -47,6 +47,13 @@ export interface Vehiculo {
   color?: string
 }
 
+export interface ChecklistIngreso {
+  kilometraje?: number
+  nivel_gasolina?: 'reserva' | '25%' | '50%' | '75%' | '100%'
+  elementos?: Record<string, boolean>
+  notas_danos?: string
+}
+
 export interface Orden {
   id: string
   order_number?: number
@@ -64,6 +71,7 @@ export interface Orden {
   notificacion_enviada: boolean
   is_paid?: boolean
   internal_notes?: string
+  checklist_ingreso?: ChecklistIngreso
   created_at: string
   updated_at?: string
 }

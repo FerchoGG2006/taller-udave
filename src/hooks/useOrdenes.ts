@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '../lib/supabase'
-import type { Orden, EstadoOrden } from '../types'
+import type { Orden, EstadoOrden, OrdenFull } from '../types'
 
 export function useOrdenesActivas() {
   return useQuery({
@@ -28,7 +28,7 @@ export function useOrdenesActivas() {
         .order('created_at', { ascending: false })
       
       if (error) throw new Error(error.message)
-      return data as any[]
+      return data as unknown as OrdenFull[]
     }
   })
 }
@@ -64,7 +64,7 @@ export function useHistorialOrdenes(placa?: string) {
       const { data, error } = await query
       
       if (error) throw new Error(error.message)
-      return data as any[]
+      return data as unknown as OrdenFull[]
     },
     enabled: placa === undefined || placa.length >= 5
   })
@@ -118,7 +118,7 @@ export function useCrearOrden() {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: async ({ orden, items }: { 
-      orden: Omit<Orden, 'id' | 'created_at' | 'estado' | 'aprobado_por_cliente' | 'notificacion_enviada' | 'order_number'>,
+      orden: Omit<Orden, 'id' | 'created_at' | 'estado' | 'aprobado_por_cliente' | 'notificacion_enviada' | 'order_number' | 'taller_id'> & { taller_id?: string },
       items: { descripcion: string, precio: number }[]
     }) => {
       // Obtener el ID del usuario actual para registrarlo como recepcionista si está autenticado
