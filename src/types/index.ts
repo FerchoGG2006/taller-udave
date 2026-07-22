@@ -52,6 +52,7 @@ export interface ChecklistIngreso {
   nivel_gasolina?: 'reserva' | '25%' | '50%' | '75%' | '100%'
   elementos?: Record<string, boolean>
   notas_danos?: string
+  fotos?: string[]
 }
 
 export interface Orden {

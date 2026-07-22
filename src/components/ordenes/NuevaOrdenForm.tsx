@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Button } from '../ui/Button'
-import { PlusCircle, Trash2, Gauge, Fuel, CheckSquare, ClipboardCheck, AlertTriangle } from 'lucide-react'
+import { PlusCircle, Trash2, Gauge, Fuel, CheckSquare, ClipboardCheck, AlertTriangle, Camera, X } from 'lucide-react'
 import { useCrearOrden } from '../../hooks/useOrdenes'
 import { useNavigate } from 'react-router-dom'
+import { supabase } from '../../lib/supabase'
 import type { ChecklistIngreso } from '../../types'
 
 interface NuevaOrdenFormProps {
@@ -47,6 +48,10 @@ export function NuevaOrdenForm({ vehiculoId }: NuevaOrdenFormProps) {
   })
   
   const [items, setItems] = useState<Item[]>([{ descripcion: '', precio: '' }])
+  const [fotos, setFotos] = useState<File[]>([])
+  const [uploadingFotos, setUploadingFotos] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  
   const crearOrden = useCrearOrden()
   const navigate = useNavigate()
 
@@ -66,6 +71,49 @@ export function NuevaOrdenForm({ vehiculoId }: NuevaOrdenFormProps) {
     setItems(newItems)
   }
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const selectedFiles = Array.from(e.target.files)
+      // Limit to max 4 photos
+      if (fotos.length + selectedFiles.length > 4) {
+        alert("Máximo 4 fotos permitidas por orden.")
+        return
+      }
+      setFotos(prev => [...prev, ...selectedFiles])
+    }
+  }
+
+  const removeFoto = (index: number) => {
+    setFotos(fotos.filter((_, i) => i !== index))
+  }
+
+  const uploadFotos = async (vehiculoIdStr: string): Promise<string[]> => {
+    const uploadedUrls: string[] = []
+    if (fotos.length === 0) return uploadedUrls
+
+    for (const foto of fotos) {
+      const fileExt = foto.name.split('.').pop()
+      const fileName = `${vehiculoIdStr}-${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`
+      
+      const { error } = await supabase.storage
+        .from('orden_fotos')
+        .upload(fileName, foto)
+        
+      if (error) {
+        console.error('Error uploading photo:', error)
+        throw new Error('Error al subir las fotos. Asegúrate de que el Storage Bucket está configurado.')
+      }
+      
+      const { data: publicUrlData } = supabase.storage
+        .from('orden_fotos')
+        .getPublicUrl(fileName)
+        
+      uploadedUrls.push(publicUrlData.publicUrl)
+    }
+    
+    return uploadedUrls
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
@@ -77,14 +125,17 @@ export function NuevaOrdenForm({ vehiculoId }: NuevaOrdenFormProps) {
         precio: parseFloat(item.precio) || 0
       }))
 
-    const checklistIngreso: ChecklistIngreso = {
-      kilometraje: kilometraje ? parseInt(kilometraje, 10) : undefined,
-      nivel_gasolina: nivelGasolina,
-      elementos,
-      notas_danos: observaciones
-    }
-
     try {
+      setUploadingFotos(true)
+      const fotosUrls = await uploadFotos(vehiculoId)
+
+      const checklistIngreso: ChecklistIngreso = {
+        kilometraje: kilometraje ? parseInt(kilometraje, 10) : undefined,
+        nivel_gasolina: nivelGasolina,
+        elementos,
+        notas_danos: observaciones,
+        fotos: fotosUrls
+      }
       await crearOrden.mutateAsync({
         orden: {
           vehiculo_id: vehiculoId,
@@ -99,6 +150,8 @@ export function NuevaOrdenForm({ vehiculoId }: NuevaOrdenFormProps) {
       navigate('/ordenes')
     } catch (error) {
       alert("Error al crear la orden: " + (error as Error).message)
+    } finally {
+      setUploadingFotos(false)
     }
   }
 
@@ -207,6 +260,46 @@ export function NuevaOrdenForm({ vehiculoId }: NuevaOrdenFormProps) {
             placeholder="Ej: Rayón superficial en puerta delantera derecha, abolladura leve en parachoques trasero..."
           />
         </div>
+        
+        {/* Registro Fotográfico */}
+        <div className="mt-6">
+          <label className="flex items-center gap-2 text-xs font-extrabold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-2">
+            <Camera className="w-4 h-4 text-purple-500" />
+            Evidencia Fotográfica (Max 4)
+          </label>
+          <div className="flex gap-4 items-start flex-wrap">
+            {fotos.map((foto, index) => (
+              <div key={index} className="relative w-24 h-24 rounded-xl overflow-hidden border-2 border-slate-200 dark:border-slate-700">
+                <img src={URL.createObjectURL(foto)} alt={`Foto ${index + 1}`} className="object-cover w-full h-full" />
+                <button
+                  type="button"
+                  onClick={() => removeFoto(index)}
+                  className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                >
+                  <X className="w-3 h-3" />
+                </button>
+              </div>
+            ))}
+            {fotos.length < 4 && (
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="w-24 h-24 rounded-xl neumorphic-inset flex flex-col items-center justify-center text-slate-400 hover:text-purple-500 hover:bg-purple-50 transition-colors"
+              >
+                <PlusCircle className="w-6 h-6 mb-1" />
+                <span className="text-[10px] font-bold uppercase">Subir Foto</span>
+              </button>
+            )}
+            <input 
+              type="file" 
+              ref={fileInputRef} 
+              className="hidden" 
+              accept="image/*" 
+              multiple 
+              onChange={handleFileChange}
+            />
+          </div>
+        </div>
       </div>
 
       {/* Sección 2: Servicios Estimados */}
@@ -258,9 +351,13 @@ export function NuevaOrdenForm({ vehiculoId }: NuevaOrdenFormProps) {
         </Button>
       </div>
 
-      <div className="pt-4 border-t border-slate-200/40 dark:border-slate-800/40">
-        <Button type="submit" variant="neumorphic" disabled={crearOrden.isPending} className="w-full sm:w-auto px-6 py-3 rounded-xl">
-          {crearOrden.isPending ? 'Creando Orden...' : 'Crear Orden e Ingresar Vehículo'}
+      <div className="pt-8 border-t border-slate-200/50 dark:border-slate-800/50 flex justify-end">
+        <Button 
+          type="submit" 
+          className="text-sm px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold shadow-lg shadow-blue-500/30"
+          disabled={crearOrden.isPending || uploadingFotos}
+        >
+          {crearOrden.isPending || uploadingFotos ? 'Registrando Orden...' : 'Generar Orden'}
         </Button>
       </div>
     </form>

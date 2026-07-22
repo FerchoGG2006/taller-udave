@@ -3,7 +3,8 @@ import { EstadoBadge } from './EstadoBadge'
 import { type EstadoOrden, type Orden, type Vehiculo, type Cliente, type OrderMechanic } from '../../types'
 import { useCambiarEstadoOrden } from '../../hooks/useOrdenes'
 import { DetalleOrdenModal } from './DetalleOrdenModal'
-import { Clipboard, Phone, User, Users, DollarSign, MessageSquare } from 'lucide-react'
+import { ReporteIngreso } from './ReporteIngreso'
+import { Clipboard, Phone, User, Users, DollarSign, MessageSquare, Printer } from 'lucide-react'
 
 const WEB_PORTAL_URL = import.meta.env.VITE_WEB_PORTAL_URL || 'https://taller-udave.web.app'
 
@@ -22,6 +23,7 @@ export function OrdenCard({ orden }: {
   const cambiarEstado = useCambiarEstadoOrden()
   const [loading, setLoading] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
+  const [reporteOpen, setReporteOpen] = useState(false)
 
   const handleUpdateEstado = async (nuevoEstado: EstadoOrden) => {
     setLoading(true)
@@ -136,7 +138,16 @@ export function OrdenCard({ orden }: {
         )}
       </div>
 
-      <div className="pt-5 border-t border-slate-200/50 dark:border-slate-700/50 mt-auto flex flex-wrap gap-2.5">
+      {/* Botones de Acción */}
+      <div className="bg-slate-100/50 dark:bg-slate-900/50 px-5 py-4 border-t border-slate-200/50 dark:border-slate-800/50 flex flex-wrap gap-2 justify-end items-center rounded-b-3xl">
+        <button 
+          onClick={() => setReporteOpen(true)}
+          className="text-xs font-bold text-slate-700 dark:text-slate-300 neumorphic-btn border-none px-4 py-2.5 rounded-2xl flex items-center gap-1.5"
+          title="Imprimir Reporte de Ingreso"
+        >
+          <Printer className="w-4 h-4 text-slate-500" /> Reporte
+        </button>
+
         <button
           onClick={() => setModalOpen(true)}
           className="flex items-center gap-1.5 text-xs font-bold text-indigo-600 dark:text-indigo-400 neumorphic-btn border-none px-4 py-2.5 rounded-2xl"
@@ -196,6 +207,14 @@ export function OrdenCard({ orden }: {
         <DetalleOrdenModal
           orden={orden}
           onClose={() => setModalOpen(false)}
+        />
+      )}
+
+      {/* Reporte de Ingreso */}
+      {reporteOpen && (
+        <ReporteIngreso
+          orden={orden as unknown as import('../../types').OrdenFull}
+          onClose={() => setReporteOpen(false)}
         />
       )}
     </div>
