@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
-import { LayoutDashboard, PlusCircle, List, History, LogOut, DollarSign, Users, Sparkles, CalendarDays } from 'lucide-react'
+import { LayoutDashboard, PlusCircle, List, History, LogOut, DollarSign, Users, Sparkles, CalendarDays, Package, Wrench, Wallet } from 'lucide-react'
 import { cn } from '../../lib/utils'
 import { supabase } from '../../lib/supabase'
 import { useActiveProfile } from '../../hooks/useProfiles'
@@ -37,6 +37,9 @@ export function Sidebar() {
         { icon: CalendarDays, label: 'Citas', path: '/citas' },
         { icon: PlusCircle, label: 'Nueva Orden', path: '/nueva-orden' },
         { icon: List, label: 'Órdenes Activas', path: '/ordenes' },
+        { icon: Package, label: 'Inventario', path: '/inventario' },
+        { icon: Wrench, label: 'Servicios', path: '/servicios' },
+        { icon: Wallet, label: 'Caja y POS', path: '/caja' },
         { icon: History, label: 'Historial', path: '/historial' },
         { icon: DollarSign, label: 'Comisiones', path: '/comisiones' },
         { icon: Users, label: 'Personal', path: '/personal' },

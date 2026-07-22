@@ -15,6 +15,9 @@ import Agendamiento from './pages/Agendamiento.tsx'
 import EncuestaCliente from './pages/EncuestaCliente.tsx'
 import RegistroTaller from './pages/RegistroTaller.tsx'
 import PanelMecanico from './pages/PanelMecanico.tsx'
+import Inventario from './pages/Inventario.tsx'
+import Servicios from './pages/Servicios.tsx'
+import Caja from './pages/Caja.tsx'
 
 const router = createBrowserRouter([
   {
@@ -31,6 +34,9 @@ const router = createBrowserRouter([
       { path: '/personal', element: <Personal /> },
       { path: '/comisiones', element: <Comisiones /> },
       { path: '/citas', element: <Agendamiento /> },
+      { path: '/inventario', element: <Inventario /> },
+      { path: '/servicios', element: <Servicios /> },
+      { path: '/caja', element: <Caja /> },
       { path: '/cliente/orden/:id', element: <AprobacionCliente /> },
       { path: '/cliente/encuesta/:id', element: <EncuestaCliente /> },
     ]
