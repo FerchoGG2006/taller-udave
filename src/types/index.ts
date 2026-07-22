@@ -161,3 +161,31 @@ export interface PendingCommission {
   total_pending: number
   oldest_order_date: string
 }
+
+export type TipoMovimientoCaja = 'ingreso' | 'egreso'
+export type MetodoPagoCaja = 'efectivo' | 'tarjeta' | 'transferencia' | 'otro'
+
+export interface CajaMovimiento {
+  id: string
+  taller_id: string
+  registrado_por: string
+  orden_id?: string
+  tipo: TipoMovimientoCaja
+  monto: number
+  metodo_pago: MetodoPagoCaja
+  concepto: string
+  fecha_movimiento: string
+  created_at: string
+}
+
+export interface CajaMovimientoFull extends CajaMovimiento {
+  profiles?: {
+    full_name: string
+  }
+  ordenes?: {
+    order_number: number
+    vehiculos?: {
+      placa: string
+    }
+  }
+}
