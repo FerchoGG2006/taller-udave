@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:is(.dark *));
 
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -6,7 +7,7 @@
 
 @layer base {
   body {
-    @apply antialiased text-slate-800 bg-slate-100 dark:text-slate-100 dark:bg-slate-900;
+    @apply antialiased text-slate-800 bg-slate-100;
     font-family: 'Inter', sans-serif;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
@@ -52,59 +53,5 @@
     transform: translateY(0) scale(0.98);
   }
 
-  /* ─── NEUMORFISMO PREMIUM (Modo Oscuro del Sistema) ─── */
-  @media (prefers-color-scheme: dark) {
-    .neumorphic-outset {
-      background: linear-gradient(145deg, #232f42, #182232) !important;
-      box-shadow: 10px 10px 20px #0e1622, -10px -10px 20px #2a394e !important;
-      border: 1px solid rgba(255, 255, 255, 0.05) !important;
-    }
-
-    .neumorphic-inset {
-      background: #1e293b !important;
-      box-shadow: inset 6px 6px 12px #0e1622, inset -6px -6px 12px #2a394e !important;
-      border: 1px solid rgba(0, 0, 0, 0.2) !important;
-    }
-
-    .neumorphic-btn {
-      background: linear-gradient(145deg, #232f42, #182232) !important;
-      box-shadow: 4px 4px 10px #0e1622, -4px -4px 10px #2a394e !important;
-      border: 1px solid rgba(255, 255, 255, 0.05) !important;
-    }
-    
-    .neumorphic-btn:hover {
-      box-shadow: 6px 6px 14px #0e1622, -6px -6px 14px #2a394e !important;
-    }
-    
-    .neumorphic-btn:active {
-      box-shadow: inset 3px 3px 6px #0e1622, inset -3px -3px 6px #2a394e !important;
-    }
-  }
-
-  /* ─── NEUMORFISMO PREMIUM (Modo Oscuro por Clase HTML) ─── */
-  .dark .neumorphic-outset {
-    background: linear-gradient(145deg, #232f42, #182232);
-    box-shadow: 10px 10px 20px #0e1622, -10px -10px 20px #2a394e;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-  }
-  
-  .dark .neumorphic-inset {
-    background: #1e293b;
-    box-shadow: inset 6px 6px 12px #0e1622, inset -6px -6px 12px #2a394e;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-  }
-  
-  .dark .neumorphic-btn {
-    background: linear-gradient(145deg, #232f42, #182232);
-    box-shadow: 4px 4px 10px #0e1622, -4px -4px 10px #2a394e;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-  }
-  
-  .dark .neumorphic-btn:hover {
-    box-shadow: 6px 6px 14px #0e1622, -6px -6px 14px #2a394e;
-  }
-  
-  .dark .neumorphic-btn:active {
-    box-shadow: inset 3px 3px 6px #0e1622, inset -3px -3px 6px #2a394e;
-  }
+  /* ─── MODO OSCURO DESHABILITADO POR AHORA ─── */
 }
