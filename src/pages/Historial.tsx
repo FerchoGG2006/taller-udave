@@ -77,8 +77,8 @@ export default function Historial() {
   }) || []
 
   // Calcular métricas financieras del conjunto filtrado
-  const totalLabor = filteredOrdenes.reduce((sum, o) => sum + (parseFloat(o.labor_cost) || 0), 0)
-  const totalParts = filteredOrdenes.reduce((sum, o) => sum + (parseFloat(o.parts_cost) || 0), 0)
+  const totalLabor = filteredOrdenes.reduce((sum, o) => sum + (Number(o.labor_cost) || 0), 0)
+  const totalParts = filteredOrdenes.reduce((sum, o) => sum + (Number(o.parts_cost) || 0), 0)
   const totalFacturado = totalLabor + totalParts
 
   return (
@@ -141,36 +141,36 @@ export default function Historial() {
         </div>
 
         {/* Métricas Financieras del Listado Filtrado */}
-        <div className="lg:col-span-2 bg-gradient-to-br from-slate-900 to-slate-850 p-6 rounded-[2rem] text-white shadow-xl relative overflow-hidden flex flex-col justify-between border border-white/5">
-          <div className="absolute top-0 right-0 p-8 opacity-5">
+        <div className="lg:col-span-2 neumorphic-outset p-6 rounded-[2rem] text-slate-800 shadow-xl relative overflow-hidden flex flex-col justify-between">
+          <div className="absolute top-0 right-0 p-8 opacity-5 text-slate-900">
             <DollarSign className="w-28 h-28" />
           </div>
           
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-              <ClipboardList className="w-3.5 h-3.5 text-blue-400" /> Sumatoria de Facturación
+            <h2 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
+              <ClipboardList className="w-3.5 h-3.5 text-indigo-500" /> Sumatoria de Facturación
             </h2>
-            <span className="text-[9px] bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full font-bold border border-emerald-500/30 uppercase tracking-wider">
+            <span className="text-[9px] bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full font-bold border border-emerald-200 uppercase tracking-wider">
               Período Filtrado
             </span>
           </div>
 
-          <div className="grid grid-cols-3 gap-6 border-t border-slate-700/50 pt-5">
+          <div className="grid grid-cols-3 gap-6 border-t border-slate-300/60 pt-5">
             <div>
-              <p className="text-[9px] text-slate-450 uppercase font-bold tracking-wider">Mano de Obra</p>
-              <p className="text-xl font-extrabold text-white mt-1.5">
+              <p className="text-[9px] text-slate-500 uppercase font-bold tracking-wider">Mano de Obra</p>
+              <p className="text-xl font-extrabold text-slate-800 mt-1.5">
                 ${totalLabor.toLocaleString('es-CO', { minimumFractionDigits: 0 })}
               </p>
             </div>
             <div>
-              <p className="text-[9px] text-slate-450 uppercase font-bold tracking-wider">Repuestos</p>
-              <p className="text-xl font-extrabold text-white mt-1.5">
+              <p className="text-[9px] text-slate-500 uppercase font-bold tracking-wider">Repuestos</p>
+              <p className="text-xl font-extrabold text-slate-800 mt-1.5">
                 ${totalParts.toLocaleString('es-CO', { minimumFractionDigits: 0 })}
               </p>
             </div>
-            <div className="border-l border-slate-700/50 pl-6">
-              <p className="text-[9px] text-emerald-400 uppercase font-bold tracking-wider">Total Facturado</p>
-              <p className="text-2xl font-black text-emerald-400 mt-1">
+            <div className="border-l border-slate-300/60 pl-6">
+              <p className="text-[9px] text-emerald-600 uppercase font-bold tracking-wider">Total Facturado</p>
+              <p className="text-2xl font-black text-emerald-600 mt-1">
                 ${totalFacturado.toLocaleString('es-CO', { minimumFractionDigits: 0 })}
               </p>
             </div>
@@ -200,7 +200,7 @@ export default function Historial() {
               title="Estado de la orden"
               className="w-full pl-11 pr-4 py-3 neumorphic-inset text-slate-800 dark:text-slate-100 text-sm rounded-xl outline-none focus:ring-2 focus:ring-blue-500/20 border-none transition-all bg-transparent cursor-pointer appearance-none font-medium"
               value={selectedEstado}
-              onChange={(e) => setSelectedEstado(e.target.value as any)}
+              onChange={(e) => setSelectedEstado(e.target.value as EstadoOrden | 'todas')}
             >
               {ESTADOS.map((e) => (
                 <option key={e.value} value={e.value} className="dark:bg-slate-900">{e.label}</option>
